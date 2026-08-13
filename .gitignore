@@ -1,2 +1,9 @@
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
+.omo
+.opencode
+.venv
+.conda
+.claude/settings.local.json
+.DS_Store
+
