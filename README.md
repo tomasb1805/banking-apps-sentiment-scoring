@@ -1,1 +1,0 @@
-# fintech-app-reviews
