@@ -1,0 +1,18 @@
+name: fintech-app-reviews
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+  - pandas
+  - requests
+  - matplotlib
+  - ipykernel
+  - jupyterlab
+  - pip:
+    - google-play-scraper
+    - app-store-scraper
+    - vaderSentiment
+    - google-cloud-bigquery
+    - google-cloud-secret-manager
