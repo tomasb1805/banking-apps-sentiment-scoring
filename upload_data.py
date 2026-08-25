@@ -14,7 +14,7 @@ DATASET_ID = "fintech_app_reviews"
 LOCATION = "europe-west2"
 
 # Path to your raw data directory relative to project root
-DATA_DIR = "./data"
+DATA_DIR = "./data/raw"
 # "./data/raw"
 
 # Explicit list of your CSV files and their target BigQuery table
@@ -62,6 +62,7 @@ FILES_TO_UPLOAD = {
     # "ios_Wise.csv": "raw_ios_wise",
 
     # iOS changelogs - newly added (c250046)
+
     # "ios_ANNA Bank.csv": "raw_ios_anna_bank",
     # "ios_Barclays.csv": "raw_ios_barclays",
     # "ios_HSBC.csv": "raw_ios_hsbc",
@@ -124,10 +125,10 @@ def upload_fintech_raw_tables():
                                 "platform": str,
                                 "app": str,
                                 "review_id": str,
-                                "username": str,
+                                "user_name": str,
                                 "content": str,
                                 "score": "Int64",
-                                "thumbs_up": "boolean",
+                                "thumbs_up": "Int64",
                                 "app_version": str,
                                 "reviewed_at": str,
                                 "reply": str,
