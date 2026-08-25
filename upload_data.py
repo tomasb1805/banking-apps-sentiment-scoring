@@ -23,36 +23,37 @@ DATA_DIR = "./data"
 FILES_TO_UPLOAD = {
     # App Store reviews - original
 
-    # "app_store_Klarna.csv": "raw_app_store_klarna",
-    # "app_store_Revolut.csv": "raw_app_store_revolut",
-    # "app_store_Wise.csv": "raw_app_store_wise",
+    "app_store_Klarna.csv": "raw_app_store_klarna",
+    "app_store_Revolut.csv": "raw_app_store_revolut",
+    "app_store_Wise.csv": "raw_app_store_wise",
 
     # App Store reviews - newly added (fccc733)
 
-    # "app_store_ANNA Bank.csv": "raw_app_store_anna_bank",
-    # "app_store_Barclays.csv": "raw_app_store_barclays",
-    # "app_store_HSBC.csv": "raw_app_store_hsbc",
-    # "app_store_Lloyds.csv": "raw_app_store_lloyds",
-    # "app_store_Monzo.csv": "raw_app_store_monzo",
-    # "app_store_NatWest.csv": "raw_app_store_natwest",
-    # "app_store_Starling.csv": "raw_app_store_starling",
-    # "app_store_Tide.csv": "raw_app_store_tide",
+    "app_store_ANNA Bank.csv": "raw_app_store_anna_bank",
+    "app_store_Barclays.csv": "raw_app_store_barclays",
+    "app_store_HSBC.csv": "raw_app_store_hsbc",
+    "app_store_Lloyds.csv": "raw_app_store_lloyds",
+    "app_store_Monzo.csv": "raw_app_store_monzo",
+    "app_store_NatWest.csv": "raw_app_store_natwest",
+    "app_store_Starling.csv": "raw_app_store_starling",
+    "app_store_Tide.csv": "raw_app_store_tide",
 
     # Google Play reviews - original
 
-    # "google_play_Klarna.csv": "raw_google_play_klarna",
-    # "google_play_Revolut.csv": "raw_google_play_revolut",
-    # "google_play_Wise.csv": "raw_google_play_wise",
+    "google_play_Klarna.csv": "raw_google_play_klarna",
+    "google_play_Revolut.csv": "raw_google_play_revolut",
+    "google_play_Wise.csv": "raw_google_play_wise",
 
     # Google Play reviews - newly added (fccc733)
 
-    # "google_play_ANNA Bank.csv": "raw_google_play_anna_bank",
-    # "google_play_Barclays.csv": "raw_google_play_barclays",
-    # "google_play_HSBC.csv": "raw_google_play_hsbc",
-    # "google_play_Lloyds.csv": "raw_google_play_lloyds",
-    # "google_play_Monzo.csv": "raw_google_play_monzo",
-    # "google_play_NatWest.csv": "raw_google_play_natwest",
-    # "google_play_Starling.csv": "raw_google_play_starling",
+    "google_play_ANNA Bank.csv": "raw_google_play_anna_bank",
+    "google_play_Barclays.csv": "raw_google_play_barclays",
+    "google_play_HSBC.csv": "raw_google_play_hsbc",
+    "google_play_Lloyds.csv": "raw_google_play_lloyds",
+    "google_play_Monzo.csv": "raw_google_play_monzo",
+    "google_play_NatWest.csv": "raw_google_play_natwest",
+    "google_play_Starling.csv": "raw_google_play_starling",
+    "google_play_Tide.csv": "raw_google_play_tide",
     
     # iOS changelogs
 
@@ -70,8 +71,8 @@ FILES_TO_UPLOAD = {
     # "ios_Starling.csv": "raw_ios_starling",
     # "ios_Tide.csv": "raw_ios_tide",
     
-    "ios_changelogs.csv": "app_updates_release",
-    "reviews_analyzed.csv": "app_reviews_sentiment_analysis"
+    # "ios_changelogs.csv": "app_updates_release",
+    # "reviews_analyzed.csv": "app_reviews_sentiment_analysis"
 }
 
 
@@ -117,8 +118,22 @@ def upload_fintech_raw_tables():
         print(f"Target Table : {table_id}")
 
         try:
-            # Read CSV using Pandas (automatically handles multiline review text & quotes)
-            df = pd.read_csv(file_path, dtype={"review_id": str})
+            # Read CSV using Pandas (automatically handles multiline review text & quotes)gcl
+            df = pd.read_csv(file_path,
+                             dtype={
+                                "platform": str,
+                                "app": str,
+                                "review_id": str,
+                                "username": str,
+                                "content": str,
+                                "score": "Int64",
+                                "thumbs_up": "boolean",
+                                "app_version": str,
+                                "reviewed_at": str,
+                                "reply": str,
+                                "replied_at": str,
+                                }
+                            )
 
             # Define BigQuery Load Configuration
             job_config = bigquery.LoadJobConfig(
