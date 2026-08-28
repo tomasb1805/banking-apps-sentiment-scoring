@@ -7,16 +7,20 @@ WITH unified_raw AS (
     app_version,
     reviewed_at,
     content
-  FROM
-    `fintech-reviews-analytics.fintech_app_reviews.raw_*`
-  WHERE
-    _TABLE_SUFFIX LIKE '%_%' -- Filters matching table naming patterns
+  FROM `fintech-reviews-analytics.fintech_app_reviews.raw_app_store_*`
+  UNION ALL
+  SELECT
+    app,
+    app_version,
+    reviewed_at,
+    content
+  FROM `fintech-reviews-analytics.fintech_app_reviews.raw_google_play_*`
 ),
 base_sentiment AS (
   SELECT
     app,
     app_version,
-    DATE_TRUNC(PARSE_DATE('%Y-%m-%d', reviewed_at), WEEK) AS review_week,
+    DATE_TRUNC(DATE(TIMESTAMP(reviewed_at)), WEEK) AS review_week,
     CASE 
       WHEN LOWER(content) LIKE '%kyc%' OR LOWER(content) LIKE '%verification%' THEN 'KYC/Onboarding'
       WHEN LOWER(content) LIKE '%decline%' OR LOWER(content) LIKE '%card%' THEN 'Card Decline'
