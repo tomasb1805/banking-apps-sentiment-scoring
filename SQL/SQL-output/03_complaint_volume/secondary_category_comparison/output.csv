@@ -1,0 +1,17 @@
+provider_group,primary_category,n_reviews
+NeoBank,Customer Support Friction,529
+NeoBank,Account Freeze/Restriction,347
+NeoBank,Fees/Pricing,304
+NeoBank,UI/UX Bug,206
+NeoBank,KYC/Onboarding,72
+NeoBank,Login/Access Issues,51
+NeoBank,Card Declines,20
+NeoBank,Transfer Latency,20
+TradBank,UI/UX Bug,343
+TradBank,Customer Support Friction,185
+TradBank,Login/Access Issues,119
+TradBank,Account Freeze/Restriction,66
+TradBank,KYC/Onboarding,26
+TradBank,Card Declines,12
+TradBank,Fees/Pricing,7
+TradBank,Transfer Latency,1

@@ -1,0 +1,19 @@
+app,platform,n_reviews,avg_content_length
+ANNA Bank,app_store,55,206.90909090909091
+ANNA Bank,google_play,58,113.43103448275862
+Barclays,app_store,499,152.74549098196397
+Barclays,google_play,2184,104.91941391941384
+HSBC,google_play,2182,95.25435380384981
+Lloyds,app_store,498,161.70682730923693
+Lloyds,google_play,2182,78.033913840513392
+Monzo,app_store,500,138.254
+Monzo,google_play,2182,87.920714940421519
+NatWest,app_store,499,135.62324649298591
+NatWest,google_play,2182,87.218148487626109
+Revolut,app_store,497,86.847082494969868
+Revolut,google_play,6107,85.186016047159086
+Starling,app_store,497,157.154929577465
+Starling,google_play,2187,75.998628257887631
+Tide,app_store,176,314.35795454545473
+Wise,app_store,495,132.15353535353529
+Wise,google_play,6143,77.408920722774141
