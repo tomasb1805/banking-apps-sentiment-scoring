@@ -1,72 +1,79 @@
 provider_group,app,category,n_reviews
-NeoBank,Wise,Fees/Pricing,205
-NeoBank,Wise,Customer Support Friction,177
-NeoBank,Revolut,UI/UX Bug,147
-NeoBank,Revolut,Customer Support Friction,138
-NeoBank,Wise,Account Freeze/Restriction,136
+NeoBank,Wise,Fees/Pricing,730
+NeoBank,Revolut,Customer Support Friction,622
+NeoBank,Wise,Customer Support Friction,607
+NeoBank,Wise,Account Freeze/Restriction,475
+NeoBank,Revolut,UI/UX Bug,441
+NeoBank,Revolut,Account Freeze/Restriction,416
+NeoBank,Revolut,Fees/Pricing,336
+NeoBank,Wise,UI/UX Bug,169
+NeoBank,Revolut,KYC/Onboarding,160
+NeoBank,Wise,KYC/Onboarding,159
 NeoBank,Starling,Customer Support Friction,130
 NeoBank,Monzo,Customer Support Friction,105
-NeoBank,Revolut,Account Freeze/Restriction,101
-NeoBank,Revolut,Fees/Pricing,92
+NeoBank,Tide,Customer Support Friction,104
+NeoBank,Revolut,Login/Access Issues,77
 NeoBank,Monzo,Account Freeze/Restriction,71
-NeoBank,Wise,UI/UX Bug,49
-NeoBank,Tide,Customer Support Friction,36
-NeoBank,Wise,KYC/Onboarding,32
-NeoBank,Revolut,KYC/Onboarding,28
-NeoBank,Revolut,Login/Access Issues,21
+NeoBank,Wise,Transfer Latency,68
+NeoBank,Wise,Login/Access Issues,64
+NeoBank,ANNA Bank,Customer Support Friction,59
+NeoBank,Tide,Account Freeze/Restriction,47
+NeoBank,Tide,UI/UX Bug,37
+NeoBank,ANNA Bank,Account Freeze/Restriction,33
+NeoBank,Wise,Card Declines,31
+NeoBank,Revolut,Transfer Latency,22
+NeoBank,Revolut,Card Declines,20
 NeoBank,Starling,UI/UX Bug,20
-NeoBank,Tide,Account Freeze/Restriction,18
 NeoBank,Starling,Account Freeze/Restriction,15
-NeoBank,Wise,Login/Access Issues,15
 NeoBank,Monzo,UI/UX Bug,14
-NeoBank,Wise,Transfer Latency,12
 NeoBank,Starling,Fees/Pricing,12
-NeoBank,ANNA Bank,Customer Support Friction,11
+NeoBank,Tide,KYC/Onboarding,10
 NeoBank,Monzo,KYC/Onboarding,10
 NeoBank,Monzo,Login/Access Issues,10
 NeoBank,Starling,Card Declines,9
-NeoBank,Tide,UI/UX Bug,8
+NeoBank,Tide,Login/Access Issues,9
+NeoBank,ANNA Bank,KYC/Onboarding,9
+NeoBank,ANNA Bank,Fees/Pricing,8
+NeoBank,ANNA Bank,UI/UX Bug,8
 NeoBank,Monzo,Fees/Pricing,7
-NeoBank,ANNA Bank,Account Freeze/Restriction,6
-NeoBank,Wise,Card Declines,6
 NeoBank,Starling,Login/Access Issues,6
-NeoBank,Revolut,Transfer Latency,6
-NeoBank,Revolut,Card Declines,3
 NeoBank,Starling,KYC/Onboarding,3
-NeoBank,ANNA Bank,Fees/Pricing,2
-NeoBank,Tide,Fees/Pricing,2
-NeoBank,Tide,KYC/Onboarding,2
-NeoBank,ANNA Bank,KYC/Onboarding,2
+NeoBank,ANNA Bank,Card Declines,3
+NeoBank,Tide,Fees/Pricing,3
 NeoBank,Monzo,Transfer Latency,2
-NeoBank,ANNA Bank,UI/UX Bug,2
+NeoBank,Tide,Transfer Latency,2
+NeoBank,Tide,Card Declines,2
+NeoBank,ANNA Bank,Transfer Latency,2
 NeoBank,Monzo,Card Declines,1
-NeoBank,ANNA Bank,Card Declines,1
+NeoBank,ANNA Bank,Login/Access Issues,1
 NeoBank,Starling,Transfer Latency,1
-TradBank,Barclays,UI/UX Bug,165
-TradBank,Lloyds,UI/UX Bug,83
-TradBank,HSBC,UI/UX Bug,74
+TradBank,Barclays,UI/UX Bug,402
+TradBank,Lloyds,UI/UX Bug,213
+TradBank,Barclays,Customer Support Friction,174
+TradBank,HSBC,UI/UX Bug,159
+TradBank,Lloyds,Customer Support Friction,123
+TradBank,HSBC,Customer Support Friction,105
+TradBank,Lloyds,Login/Access Issues,86
 TradBank,NatWest,Login/Access Issues,59
 TradBank,NatWest,UI/UX Bug,56
+TradBank,Barclays,Login/Access Issues,55
 TradBank,NatWest,Customer Support Friction,52
-TradBank,HSBC,Customer Support Friction,52
-TradBank,Barclays,Customer Support Friction,49
-TradBank,Lloyds,Customer Support Friction,41
-TradBank,HSBC,Account Freeze/Restriction,23
-TradBank,HSBC,Login/Access Issues,23
-TradBank,Lloyds,Login/Access Issues,21
-TradBank,Barclays,Login/Access Issues,21
-TradBank,HSBC,KYC/Onboarding,17
-TradBank,Lloyds,Account Freeze/Restriction,15
+TradBank,Barclays,Account Freeze/Restriction,43
+TradBank,HSBC,Login/Access Issues,40
+TradBank,Lloyds,Account Freeze/Restriction,38
+TradBank,HSBC,Account Freeze/Restriction,33
+TradBank,HSBC,KYC/Onboarding,28
+TradBank,Barclays,Card Declines,22
 TradBank,NatWest,Account Freeze/Restriction,14
-TradBank,Barclays,Account Freeze/Restriction,14
-TradBank,Lloyds,KYC/Onboarding,5
+TradBank,Lloyds,KYC/Onboarding,13
+TradBank,Lloyds,Card Declines,8
+TradBank,HSBC,Fees/Pricing,7
+TradBank,Barclays,KYC/Onboarding,4
+TradBank,HSBC,Card Declines,4
 TradBank,NatWest,Card Declines,4
-TradBank,HSBC,Fees/Pricing,4
-TradBank,Lloyds,Card Declines,3
-TradBank,Barclays,Card Declines,3
-TradBank,NatWest,Fees/Pricing,3
+TradBank,Lloyds,Transfer Latency,3
 TradBank,NatWest,KYC/Onboarding,3
-TradBank,HSBC,Card Declines,2
-TradBank,Lloyds,Fees/Pricing,1
-TradBank,Barclays,KYC/Onboarding,1
-TradBank,Lloyds,Transfer Latency,1
+TradBank,NatWest,Fees/Pricing,3
+TradBank,Lloyds,Fees/Pricing,2
+TradBank,Barclays,Transfer Latency,1
+TradBank,Barclays,Fees/Pricing,1

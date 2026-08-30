@@ -17,6 +17,14 @@ LOCATION = "europe-west2"
 DATA_DIR = "./data/raw"
 # "./data/raw"
 
+# reviews_analyzed.csv is written by analyze_app_reviews.ipynb one level up, in ./data/,
+# not in ./data/raw/ with everything else — DATA_DIR alone resolves to the wrong path for
+# it (upload silently skipped as 'File not found'). Give that one file its own base dir.
+PARENT_DATA_DIR = os.path.dirname(DATA_DIR.rstrip("/"))
+FILE_DIR_OVERRIDES = {
+    "reviews_analyzed.csv": PARENT_DATA_DIR,
+}
+
 # Explicit list of your CSV files and their target BigQuery table
 # names
 
@@ -57,23 +65,23 @@ FILES_TO_UPLOAD = {
     
     # iOS changelogs
 
-    # "ios_Klarna.csv": "raw_ios_klarna",
-    # "ios_Revolut.csv": "raw_ios_revolut",
-    # "ios_Wise.csv": "raw_ios_wise",
+    "ios_Klarna.csv": "raw_ios_klarna",
+    "ios_Revolut.csv": "raw_ios_revolut",
+    "ios_Wise.csv": "raw_ios_wise",
 
     # iOS changelogs - newly added (c250046)
 
-    # "ios_ANNA Bank.csv": "raw_ios_anna_bank",
-    # "ios_Barclays.csv": "raw_ios_barclays",
-    # "ios_HSBC.csv": "raw_ios_hsbc",
-    # "ios_Lloyds.csv": "raw_ios_lloyds",
-    # "ios_Monzo.csv": "raw_ios_monzo",
-    # "ios_NatWest.csv": "raw_ios_natwest",
-    # "ios_Starling.csv": "raw_ios_starling",
-    # "ios_Tide.csv": "raw_ios_tide",
+    "ios_ANNA Bank.csv": "raw_ios_anna_bank",
+    "ios_Barclays.csv": "raw_ios_barclays",
+    "ios_HSBC.csv": "raw_ios_hsbc",
+    "ios_Lloyds.csv": "raw_ios_lloyds",
+    "ios_Monzo.csv": "raw_ios_monzo",
+    "ios_NatWest.csv": "raw_ios_natwest",
+    "ios_Starling.csv": "raw_ios_starling",
+    "ios_Tide.csv": "raw_ios_tide",
     
-    # "ios_changelogs.csv": "app_updates_release",
-    # "reviews_analyzed.csv": "app_reviews_sentiment_analysis"
+    "ios_changelogs.csv": "app_updates_release",
+    "reviews_analyzed.csv": "app_reviews_sentiment_analysis"
 }
 
 
@@ -107,7 +115,7 @@ def upload_fintech_raw_tables():
     print(f"Starting batch upload for dataset: {PROJECT_ID}.{DATASET_ID}\n" + "="*60)
 
     for csv_file, table_name in FILES_TO_UPLOAD.items():
-        file_path = os.path.join(DATA_DIR, csv_file)
+        file_path = os.path.join(FILE_DIR_OVERRIDES.get(csv_file, DATA_DIR), csv_file)
         table_id = f"{PROJECT_ID}.{DATASET_ID}.{table_name}"
 
         # Verify file exists locally before uploading
