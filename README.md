@@ -323,4 +323,34 @@ Alternatives, while still being vulnerable to edge cases, could employ a transfo
 
 **_Changelog data available for iOS only_**
 Google Play does not make public changelogs for apps stored in the marketplace. While some alternative options were available, none of them were programmatic. iOS changelog data was used as a proxy for app releases.
-## Author:
+
+
+## Author
+
+<p align="center" width="100%">
+  <img alt="photo-profile" src="https://github.com/user-attachments/assets/54d8381c-d4f4-427c-bc8a-cdb9590d838d" width="15%">
+</p>
+
+<p align="center">
+  <strong>Brian Tomassoni</strong><br>
+  <em>Data Analyst · Credit Risk Domain</em>
+</p>
+
+<p align="center">
+  <a href="https://www.linkedin.com/in/brian-tomassoni">
+    <img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
+  </a>
+  &nbsp;
+  <a href="https://github.com/tomasb1805">
+    <img src="https://img.shields.io/badge/GitHub-Profile-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
+  </a>
+  &nbsp;
+  <a href="mailto:tmsbrn2019@proton.me">
+    <img src="https://img.shields.io/badge/Email-Contact-EA4335?style=for-the-badge&logo=protonmail&logoColor=white" alt="Email">
+  </a>
+</p>
+
+<p align="center">
+  Built as a portfolio project demonstrating end-to-end ML system design,<br>
+  credit risk domain knowledge, and production-aware engineering practices.
+</p>
