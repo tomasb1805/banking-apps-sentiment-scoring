@@ -71,45 +71,48 @@ During the data quality checks, I applied three conditions before running any an
 
 - App–month cells with fewer than 10 reviews are excluded from trend charts, to avoid further skew in the distribution, as such low volume cannot produce a stable average.
 
-- Scope Boundary: During the checks I acknowledged that some providers were not perfectly suitable for the intended scope. I decided to exclude Klarna due to its lending-oriented services as a Buy Now Pay Later (BNPL) provider, and to keep Wise, ANNA Money and Tide: while their regulatory status is different from that of a licensed bank (Electronic Money Institution for ANNA Money and Wise, Banking-as-a-Service for Tide), they still offer services comparable to traditional account-holding institutions.
+- During the checks I acknowledged that some providers were not perfectly suitable for the intended scope. I decided to exclude Klarna due to its lending-oriented services as a Buy Now Pay Later (BNPL) provider, and to keep Wise, ANNA Money and Tide: while their regulatory status is different from that of a licensed bank (Electronic Money Institution for ANNA Money and Wise, Banking-as-a-Service for Tide), they still offer services comparable to traditional account-holding institutions.
 
 ##### Pipeline Structure:
 A schematic of the pipeline and the BigQuery schema are as follows:
 
 ```mermaid
-%%{init: {'flowchart': {'useMaxWidth': true}}}%%
 flowchart TB
-    subgraph SRC["① Sources"]
+    subgraph SRC[" "]
+        SRCT["① Sources"]
         GP["Google Play<br/><i>Android</i>"]
         AS["App Store<br/><i>iOS — public RSS feed</i><br/><b>cap: 500 reviews/app</b>"]
     end
 
-    subgraph COL["② Collection · Python"]
+    subgraph COL[" "]
+        COLT["② Collection · Python"]
         SC1["scrape_app_reviews.ipynb<br/><code>google_play_scraper</code>"]
         SC2["custom RSS client<br/><i>fallback after HTTP 401</i>"]
-        SC3["scrape_app_changelogs.ipynb<br/>"]
+        SC3["scrape_app_changelogs.ipynb"]
         CKPT[("data/raw/*.csv<br/>per-app checkpoints<br/><i>dedup on review_id</i>")]
+        VERS[("ios_changelogs.csv")]
     end
 
-    subgraph PROC["③ Processing · pandas + NLTK"]
-	    RAW[("22 raw tables<br/><i>one per provider, per source</i>")]
-	    VERS[("ios_changelogs.csv")]
+    subgraph PROC[" "]
+        PROCT["③ Processing · pandas + NLTK"]
         CLEAN["analyze_app_reviews.ipynb<br/>clean → VADER → categorise"]
         OUT[("reviews_analyzed.csv")]
     end
 
-    subgraph BQ["④ Warehouse · BigQuery <i>europe-west2</i>"]
-        RAW[("22 raw tables<br/><i>one per provider, per source</i>")]
+    subgraph BQ[" "]
+        BQT["④ Warehouse · BigQuery <i>europe-west2</i>"]
         FACT[("app_reviews_sentiment_analysis<br/><b>98,190 rows</b>")]
-        REL[("app_updates_release<br/>")]
+        REL[("app_updates_release<br/><i>iOS only</i>")]
     end
 
-    subgraph SQL["⑤ Transformation · SQL"]
+    subgraph SQL[" "]
+        SQLT["⑤ Transformation · SQL"]
         Q["01_exploration · 02_vader_evolution<br/>03_complaint_volume · 04_spikes"]
         EXP[("provider.csv")]
     end
 
-    subgraph PRES["⑥ Presentation — static, no credentials"]
+    subgraph PRES[" "]
+        PREST["⑥ Presentation — static, no credentials"]
         HTML["HTML dashboard<br/><i>4 modules</i>"]
         ST["Streamlit app<br/><i>4 views</i>"]
         DOC["Report<br/><i>PDF · DOCX</i>"]
@@ -117,12 +120,11 @@ flowchart TB
 
     GP --> SC1 --> CKPT
     AS --> SC2 --> CKPT
-    AS --> SC3
-    
-    CKPT -->|upload_data.py| RAW
+    AS --> SC3 --> VERS
+
+    CKPT --> CLEAN --> OUT
     OUT -->|upload_data.py| FACT
-    RAW --> CLEAN --> OUT
-    SC3 --> VERS --> CLEAN
+    VERS -->|upload_data.py| REL
 
     FACT --> Q
     REL --> Q
@@ -132,12 +134,15 @@ flowchart TB
     EXP ==> ST
     EXP ==> DOC
 
+    classDef hdr fill:none,stroke:none,font-weight:bold
+    class SRCT,COLT,PROCT,BQT,SQLT,PREST hdr
     classDef store fill:#E8EDF4,stroke:#1F3A5F,stroke-width:1px,color:#1F3A5F
     classDef proc fill:#E4F2EF,stroke:#2A9D8F,stroke-width:1px,color:#14514A
     classDef pres fill:#F7E9E5,stroke:#C0533A,stroke-width:1px,color:#7A3324
-    class CKPT,OUT,RAW,FACT,REL,EXP,VERS store
+    class CKPT,VERS,OUT,FACT,REL,EXP store
     class SC1,SC2,SC3,CLEAN,Q proc
     class HTML,ST,DOC pres
+
 ```
 
 > End-to-end pipeline. Double arrows mark the security boundary: every published
@@ -208,7 +213,7 @@ The BigQuery warehouse holds three layers: one raw table per provider per store,
 ## Analytical Insights:
 
 ### Insight 1: Negative Review Spikes vs App Updates Rollout
-![[SCR-20260922-nrfl.png]]
+![[releases-heat-map.png]]
 
 Friction per app release registers as a sporadic episode and is not linked to each new release. Within the period covered only three out of ten app versions show an out-of-range complaint spike:
 
@@ -220,7 +225,7 @@ The remaining seven sit between +1.0pp and +5.0pp, which is ordinary spread.
 
 ### Insight 2: Sentiment Trend Comparison and Churn Risk Benchmark
 
-![[SCR-20260922-pzlq.png]]
+![[sentiment-trend.png]]
 
 The average rating movement for both cohorts shows a similar trend up to June 2026, when Traditional banks decline sharply while NeoBanks' rating remains stable as in previous months.
 
@@ -230,7 +235,7 @@ Notable trend reversals include:
 	Branch-closure programmes and service disruptions are potential candidates for this drop and should be tested directly.
 
 
-![[SCR-20260922-pzqo.png]]
+![[churn-risk-table.png]]
 
 The bottom dashboard highlights churn risk and the average rating movement for each provider. 
 
@@ -239,7 +244,7 @@ Barclays, Tide, and HSBC lead the churn risk table, with the first two displayin
 > _**Note:**_ Churn Risk is calculated as the monthly one-star reviews share within the same period.
 
 ### Insight 3: Customer Complaint Drivers
-![[SCR-20260922-nvbr.png]]
+![[complaint-drivers.png]]
 
 For the NeoBank cohort, observed complaints cluster on Account Freeze and Restrictions (with a 6.5 pp above baseline), immediately followed by Customer Support Friction (+4.2 pp).
 
@@ -248,7 +253,7 @@ Traditional banks lag behind in technological delivery: Login/Access Issues and 
 Thanks to a leaner infrastructure, Challenger banks adopt new technologies at a faster pace than Traditional bank competition. On the other hand, compliance and onboarding are common pain points for NeoBanks' customers.
 
 ### Insight 4: Customer Acquisition Cost Modelling
-![[SCR-20260922-nvjj.png]]
+![[friction-exposure-table.png]]
 
 This section is a hypothetical Customer Acquisition Cost (CAC) model built with plausible market benchmarks and estimated 10,000 app installs.
 
