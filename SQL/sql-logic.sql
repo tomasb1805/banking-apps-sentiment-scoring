@@ -4,7 +4,8 @@
 -- Source of truth: app_reviews_sentiment_analysis (VADER-enriched).
 -- Do NOT derive sentiment/category from raw_app_store_*/raw_google_play_*
 -- — those hold only the pre-enrichment fields.
--- Scope: Klarna excluded (BNPL outlier) via provider_map join + explicit filter.
+-- Scope: 10 UK banking apps (provider_map below). Klarna (BNPL, non-comparable)
+-- was removed from the source dataset upstream -- no filter needed here.
 -- Grain: app x review_month x primary_category
 -- Regenerated: 2026-08-28
 -- =====================================================================
@@ -39,7 +40,6 @@ monthly_metrics AS (
     AVG(IF(r.vader_sentiment = 'neutral',  1, 0)) AS neutral_share
   FROM `fintech-reviews-analytics.fintech_app_reviews.app_reviews_sentiment_analysis` r
   JOIN provider_map m USING (app)
-  WHERE r.app != 'Klarna'
   GROUP BY 1, 2, 3, 4
   -- Risk mitigation: ANNA Bank / Tide have low monthly review volume.
   -- Drop app/month/category cells too thin (<=20 reviews) to be a reliable

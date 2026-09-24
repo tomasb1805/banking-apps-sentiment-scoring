@@ -1,6 +1,6 @@
 -- =====================================================================
 -- Q3 — Complaint Volume Bar Chart (Competitor Analysis)
--- Source: app_reviews_sentiment_analysis, Klarna excluded
+-- Source: app_reviews_sentiment_analysis (Klarna removed from source; no filter needed)
 -- General Praise / Uncategorized excluded — this is a complaint-only view.
 -- =====================================================================
 
@@ -22,8 +22,7 @@ SELECT
   AVG(IF(r.vader_sentiment = 'negative', 1, 0)) AS negative_share
 FROM `fintech-reviews-analytics.fintech_app_reviews.app_reviews_sentiment_analysis` r
 JOIN provider_map m USING (app)
-WHERE r.app != 'Klarna'
-  AND r.primary_category NOT IN ('General Praise', 'Uncategorized')
+WHERE r.primary_category NOT IN ('General Praise', 'Uncategorized')
 GROUP BY 1, 2, 3, 4
 ORDER BY m.provider_group, n_reviews DESC;
 
@@ -42,8 +41,7 @@ SELECT
   COUNT(*) AS n_reviews
 FROM `fintech-reviews-analytics.fintech_app_reviews.app_reviews_sentiment_analysis` r
 JOIN provider_map m USING (app)
-WHERE r.app != 'Klarna'
-  AND r.primary_category NOT IN ('General Praise', 'Uncategorized')
+WHERE r.primary_category NOT IN ('General Praise', 'Uncategorized')
 GROUP BY 1, 2
 ORDER BY m.provider_group, n_reviews DESC;
 
@@ -67,7 +65,6 @@ exploded AS (
   FROM `fintech-reviews-analytics.fintech_app_reviews.app_reviews_sentiment_analysis` r
   JOIN provider_map m USING (app),
     UNNEST(SPLIT(NULLIF(r.categories, ''), ';')) AS cat
-  WHERE r.app != 'Klarna'
 )
 SELECT
   provider_group,

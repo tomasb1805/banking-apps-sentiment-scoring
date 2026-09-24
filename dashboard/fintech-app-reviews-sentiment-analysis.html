@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
-<title>Friction Ledger</title>
+<title>Fintech App Reviews - Sentiment Analysis</title>
 <style>
   :root{
     --bg:#F1F2F4;
@@ -165,6 +165,14 @@
   .callout .tag{ font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.08em; color:var(--critical); flex-shrink:0; margin-top:2px; }
 
   .note{ font-size:0.78rem; color:var(--ink-faint); margin-top:14px; line-height:1.6; }
+  .snapshot-badge{
+    display:inline-block; margin-left:10px; padding:2px 9px; border:1px solid var(--border-strong);
+    border-radius:999px; background:var(--surface-2); color:var(--ink-muted);
+    font-size:10px; letter-spacing:0.04em; text-transform:none; vertical-align:1px;
+  }
+  .dgap{ position:relative; height:18px; min-width:200px; }
+  .dgap-axis{ position:absolute; left:50%; top:0; bottom:0; width:1px; background:var(--border-strong); }
+  .dgap-bar{ position:absolute; top:3px; height:12px; border-radius:2px; }
   .note strong{ color:var(--ink-muted); }
 
   /* ---------- heatmap ---------- */
@@ -204,7 +212,9 @@
   #tooltip .tt-muted{ opacity:0.7; }
 
   /* ---------- benchmark ---------- */
-  .legend-row{ display:flex; gap:18px; flex-wrap:wrap; margin:16px 0 8px; font-size:0.82rem; }
+  .chart-toolbar{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin:16px 0 8px; }
+  .chart-toolbar-controls{ display:flex; gap:8px; align-items:center; flex-shrink:0; }
+  .legend-row{ display:flex; gap:18px; flex-wrap:wrap; font-size:0.82rem; margin:0; }
   .legend-item{ display:flex; align-items:center; gap:7px; }
   .legend-swatch{ width:14px; height:3px; border-radius:2px; }
   .chart-box{ position:relative; margin-top:6px; }
@@ -259,8 +269,8 @@
 
   <header class="topbar">
     <div>
-      <div class="brand-eyebrow">Executive Intelligence &middot; UK Digital Banking</div>
-      <h1 class="brand-title">Friction Ledger</h1>
+      <div class="brand-eyebrow">Executive Intelligence &middot; UK Digital Banking<span class="snapshot-badge">Static analysis snapshot &middot; not a live feed</span></div>
+      <h1 class="brand-title">Fintech App Reviews - Sentiment Analysis</h1>
       <p class="brand-sub">Where app-store reviews turn into product risk — release regressions, competitor rating decay, and the revenue exposed by onboarding friction, across 10 UK banking apps.</p>
     </div>
     <div class="topbar-meta">
@@ -295,7 +305,7 @@
       <span>off-scale (hover for true value)</span>
     </div>
 
-    <p class="note"><strong>Reading this:</strong> low-volume apps (Tide, ANNA Bank) show noisier swings than high-volume ones purely from smaller sample sizes — treat single-digit-<em>n</em> rows as directional. The outlined cell in each row is that release's standout category, and any cell beyond the color scale is shown hatched with its true value still printed.</p>
+    <p class="note"><strong>Reading this:</strong> low-volume apps (Tide, ANNA Money) show noisier swings than high-volume ones purely from smaller sample sizes — treat single-digit-<em>n</em> rows as directional. The outlined cell in each row is that release's standout category, and any cell beyond the color scale is shown hatched with its true value still printed.</p>
   </section>
 
   <!-- ============ SECTION 2 : COMPETITOR BENCHMARK ============ -->
@@ -306,14 +316,15 @@
         <h2 class="panel-title">Competitor Sentiment &amp; Churn-Risk Benchmark</h2>
         <p class="panel-desc">Monthly rating and sentiment trend, Traditional vs. Neo banking groups. No account-cancellation data exists in this project — <b>churn risk</b> below is a proxy built from 1-star review share, not measured churn.</p>
       </div>
-      <div class="panel-controls">
-        <button class="btn active" data-metric="avg_score">Avg. Rating</button>
-        <button class="btn" data-metric="negative_share">Negative Sentiment %</button>
-        <select class="btn" id="spotlight-select"><option value="">+ Spotlight an app&hellip;</option></select>
-      </div>
     </div>
 
-    <div class="legend-row" id="chart-legend"></div>
+    <div class="chart-toolbar">
+      <div class="chart-toolbar-controls">
+        <button class="btn active" data-metric="avg_score">Avg. Rating</button>
+        <select class="btn" id="spotlight-select"><option value="">+ Spotlight an app&hellip;</option></select>
+      </div>
+      <div class="legend-row" id="chart-legend"></div>
+    </div>
     <div class="chart-box" id="chart-box">
       <svg id="benchmark-svg" viewBox="0 0 960 320"></svg>
     </div>
@@ -326,16 +337,32 @@
     <p class="panel-desc" style="margin-top:4px;">Tier is set by each app's most recent monthly 1-star review share: <span style="color:var(--good);font-weight:600;">under 15%</span> low, <span style="color:var(--warning);font-weight:600;">15&ndash;25%</span> elevated, <span style="color:var(--critical);font-weight:600;">above 25%</span> high. Click a card to spotlight it above.</p>
     <div class="sparkline-grid" id="sparkline-grid"></div>
 
-    <p class="note"><strong>Sample floor:</strong> app&ndash;month cells with fewer than 10 reviews are omitted, which is why ANNA Bank's and NatWest's lines still start partway through the window — those two weren't part of the coverage backfill below, so their early months are missing coverage, not a real trend.</p>
-    <p class="note"><strong>Coverage backfill (complete):</strong> Revolut, Wise, Barclays and Lloyds have been re-scraped back to the same Aug 2025 start as Monzo and Starling — all four now span the full window above with no gaps. <b>ANNA Bank and Tide were not part of that backfill</b> &mdash; their remaining gaps come from genuinely low real-world review volume (115 and 620 reviews total), not missing scrape coverage, so re-scraping further wouldn't lengthen their lines; treat their trends as directional. NatWest also still has a partial-window gap since it wasn't included in this backfill round — a candidate for a future one if it matters for benchmarking.</p>
+    <p class="note"><strong>Methodology:</strong> <em>Churn-risk tier</em> is a proxy, not measured churn — no account-cancellation data exists in this dataset. Each app’s tier is set by its most recent month’s 1-star review share: under 15% = Low, 15–25% = Elevated, above 25% = High. <em>Rating trend</em> sparklines plot each app’s monthly average Google Play Store rating across the analysis window (Aug 2025 – Aug 2026). <strong>Sample floor:</strong> app&ndash;month cells with fewer than 10 reviews are omitted from both calculations, which is why ANNA Money’s and NatWest’s lines start partway through the window — those two weren’t part of the coverage backfill, so their early months lack sufficient reviews rather than reflecting a real trend.</p>
   </section>
 
-  <!-- ============ SECTION 3 : REVENUE AT RISK ============ -->
+  <!-- ============ SECTION 3 : COMPLAINT DRIVERS ============ -->
+  <section class="panel" id="panel-drivers">
+    <div class="panel-head">
+      <div>
+        <div class="panel-kicker">Module 3 &middot; Complaint Mix</div>
+        <h2 class="panel-title">What Each Cohort Complains About</h2>
+        <p class="panel-desc">Each category's share of that cohort's <em>own</em> negative reviews, and the gap between the two. Bars to the right are categories neobank customers raise more often; bars to the left are ones traditional-bank customers raise more often. Shares are of negative reviews only and exclude uncategorised text, so they do not sum to 100%.</p>
+      </div>
+    </div>
+
+    <div class="heat-wrap">
+      <table class="data-table" id="drivers-table"></table>
+    </div>
+
+    <p class="note"><strong>Read as mix, not volume.</strong> These bars show where each cohort's complaints concentrate, not how many it receives. Denominators are 7,526 neobank and 4,607 traditional-bank negative reviews over the same Aug&nbsp;2025&ndash;Aug&nbsp;2026 window used throughout. Account freezes and support friction dominate the neobank side; interface bugs and login problems dominate the traditional side.</p>
+  </section>
+
+  <!-- ============ SECTION 4 : CAC IMPACT MODELLING ============ -->
   <section class="panel" id="panel-cac">
     <div class="panel-head">
       <div>
-        <div class="panel-kicker">Module 3 &middot; Financial Exposure</div>
-        <h2 class="panel-title">Onboarding-Friction Revenue-at-Risk</h2>
+        <div class="panel-kicker">Module 4 &middot; Financial Exposure</div>
+        <h2 class="panel-title">Customer Acquisition Cost - Impact Modelling</h2>
       </div>
     </div>
 
@@ -351,7 +378,6 @@
 
   <footer>
     <span>Source: <span class="mono">app_reviews_sentiment_analysis</span> &amp; <span class="mono">app_updates_release</span>, BigQuery <span class="mono">fintech-reviews-analytics</span> &middot; VADER sentiment</span>
-    <span>Built as a static analysis snapshot &middot; not a live feed</span>
   </footer>
 </div>
 
@@ -364,7 +390,7 @@
 const RELEASE_FRICTION = [
 {"app": "Tide", "version": "3.180.0", "release_date": "2026-05-20", "n": 16, "top_category": "Customer Support Friction", "top_delta_pp": 22.06, "deltas": {"KYC/Onboarding": -1.29, "Card Declines": -0.16, "Customer Support Friction": 22.06, "Account Freeze/Restriction": 0.77, "Fees/Pricing": 0.0, "Login/Access Issues": -0.81, "Transfer Latency": -0.32, "UI/UX Bug": -4.19}},
 {"app": "NatWest", "version": "7.65.0", "release_date": "2026-04-22", "n": 35, "top_category": "Login/Access Issues", "top_delta_pp": 17.84, "deltas": {"KYC/Onboarding": -0.11, "Card Declines": -0.15, "Customer Support Friction": 1.07, "Account Freeze/Restriction": -0.52, "Fees/Pricing": -0.07, "Login/Access Issues": 17.84, "Transfer Latency": 0.0, "UI/UX Bug": 0.99}},
-{"app": "ANNA Bank", "version": "1.151.0", "release_date": "2026-03-10", "n": 9, "top_category": "Customer Support Friction", "top_delta_pp": 13.53, "deltas": {"KYC/Onboarding": -1.74, "Card Declines": -0.87, "Customer Support Friction": 13.53, "Account Freeze/Restriction": -5.22, "Fees/Pricing": -1.74, "Login/Access Issues": 0.0, "Transfer Latency": 0.0, "UI/UX Bug": -1.74}},
+{"app": "ANNA Money", "version": "1.151.0", "release_date": "2026-03-10", "n": 9, "top_category": "Customer Support Friction", "top_delta_pp": 13.53, "deltas": {"KYC/Onboarding": -1.74, "Card Declines": -0.87, "Customer Support Friction": 13.53, "Account Freeze/Restriction": -5.22, "Fees/Pricing": -1.74, "Login/Access Issues": 0.0, "Transfer Latency": 0.0, "UI/UX Bug": -1.74}},
 {"app": "HSBC", "version": "3.69.0", "release_date": "2026-04-20", "n": 50, "top_category": "Login/Access Issues", "top_delta_pp": 5.01, "deltas": {"KYC/Onboarding": 1.25, "Card Declines": -0.11, "Customer Support Friction": 1.44, "Account Freeze/Restriction": 1.15, "Fees/Pricing": -0.19, "Login/Access Issues": 5.01, "Transfer Latency": 0.0, "UI/UX Bug": 4.51}},
 {"app": "Starling", "version": "4.63.0", "release_date": "2026-08-19", "n": 43, "top_category": "Customer Support Friction", "top_delta_pp": 4.76, "deltas": {"KYC/Onboarding": -0.11, "Card Declines": -0.34, "Customer Support Friction": 4.76, "Account Freeze/Restriction": -0.56, "Fees/Pricing": -0.41, "Login/Access Issues": -0.22, "Transfer Latency": -0.04, "UI/UX Bug": -0.71}},
 {"app": "Barclays", "version": "3.72.21", "release_date": "2026-07-06", "n": 459, "top_category": "UI/UX Bug", "top_delta_pp": 4.72, "deltas": {"KYC/Onboarding": -0.02, "Card Declines": 0.09, "Customer Support Friction": 1.81, "Account Freeze/Restriction": 0.4, "Fees/Pricing": -0.01, "Login/Access Issues": 0.33, "Transfer Latency": -0.01, "UI/UX Bug": 4.72}},
@@ -373,12 +399,12 @@ const RELEASE_FRICTION = [
 {"app": "Revolut", "version": "10.140", "release_date": "2026-07-27", "n": 1612, "top_category": "UI/UX Bug", "top_delta_pp": 2.86, "deltas": {"KYC/Onboarding": -0.09, "Card Declines": -0.07, "Customer Support Friction": 0.27, "Account Freeze/Restriction": 0.12, "Fees/Pricing": 0.08, "Login/Access Issues": 0.31, "Transfer Latency": -0.0, "UI/UX Bug": 2.86}},
 {"app": "Wise", "version": "9.68", "release_date": "2026-07-20", "n": 1051, "top_category": "Account Freeze/Restriction", "top_delta_pp": 1.02, "deltas": {"KYC/Onboarding": 0.02, "Card Declines": -0.12, "Customer Support Friction": 0.43, "Account Freeze/Restriction": 1.02, "Fees/Pricing": 0.12, "Login/Access Issues": 0.14, "Transfer Latency": -0.15, "UI/UX Bug": 0.34}}
 ];
-const BENCHMARK = {"ANNA Bank":[{"review_month":"2026-03","n":20.0,"avg_score":4.6,"avg_vader":0.48,"negative_share":15.0,"one_star_share":10.0},{"review_month":"2026-04","n":40.0,"avg_score":4.7,"avg_vader":0.54,"negative_share":15.0,"one_star_share":5.0},{"review_month":"2026-05","n":11.0,"avg_score":4.64,"avg_vader":0.65,"negative_share":9.09,"one_star_share":9.09}],"Barclays":[{"review_month":"2025-08","n":1167.0,"avg_score":4.54,"avg_vader":0.44,"negative_share":7.71,"one_star_share":6.6},{"review_month":"2025-09","n":1509.0,"avg_score":4.52,"avg_vader":0.44,"negative_share":7.49,"one_star_share":6.83},{"review_month":"2025-10","n":1580.0,"avg_score":4.43,"avg_vader":0.42,"negative_share":8.67,"one_star_share":8.86},{"review_month":"2025-11","n":1629.0,"avg_score":4.45,"avg_vader":0.41,"negative_share":9.94,"one_star_share":8.53},{"review_month":"2025-12","n":1515.0,"avg_score":4.44,"avg_vader":0.41,"negative_share":10.23,"one_star_share":8.84},{"review_month":"2026-01","n":1410.0,"avg_score":4.47,"avg_vader":0.43,"negative_share":8.37,"one_star_share":7.52},{"review_month":"2026-02","n":1327.0,"avg_score":4.54,"avg_vader":0.44,"negative_share":8.74,"one_star_share":6.71},{"review_month":"2026-03","n":1562.0,"avg_score":4.57,"avg_vader":0.43,"negative_share":7.62,"one_star_share":6.59},{"review_month":"2026-04","n":1313.0,"avg_score":4.45,"avg_vader":0.42,"negative_share":8.61,"one_star_share":7.62},{"review_month":"2026-05","n":1160.0,"avg_score":4.39,"avg_vader":0.42,"negative_share":10.0,"one_star_share":9.66},{"review_month":"2026-06","n":1167.0,"avg_score":3.87,"avg_vader":0.33,"negative_share":17.57,"one_star_share":18.42},{"review_month":"2026-07","n":955.0,"avg_score":3.59,"avg_vader":0.29,"negative_share":21.57,"one_star_share":25.34},{"review_month":"2026-08","n":566.0,"avg_score":3.18,"avg_vader":0.23,"negative_share":26.33,"one_star_share":35.51}],"HSBC":[{"review_month":"2025-08","n":310.0,"avg_score":2.65,"avg_vader":0.09,"negative_share":34.19,"one_star_share":49.35},{"review_month":"2025-09","n":250.0,"avg_score":3.34,"avg_vader":0.21,"negative_share":24.8,"one_star_share":34.8},{"review_month":"2025-10","n":342.0,"avg_score":3.26,"avg_vader":0.21,"negative_share":22.51,"one_star_share":31.87},{"review_month":"2025-11","n":306.0,"avg_score":3.57,"avg_vader":0.25,"negative_share":19.61,"one_star_share":27.78},{"review_month":"2025-12","n":285.0,"avg_score":3.4,"avg_vader":0.25,"negative_share":22.11,"one_star_share":28.07},{"review_month":"2026-01","n":273.0,"avg_score":3.66,"avg_vader":0.27,"negative_share":20.15,"one_star_share":27.84},{"review_month":"2026-02","n":243.0,"avg_score":3.73,"avg_vader":0.31,"negative_share":18.93,"one_star_share":25.1},{"review_month":"2026-03","n":446.0,"avg_score":3.51,"avg_vader":0.24,"negative_share":22.65,"one_star_share":29.15},{"review_month":"2026-04","n":213.0,"avg_score":3.26,"avg_vader":0.2,"negative_share":24.88,"one_star_share":34.27},{"review_month":"2026-05","n":229.0,"avg_score":3.74,"avg_vader":0.3,"negative_share":19.65,"one_star_share":24.89},{"review_month":"2026-06","n":224.0,"avg_score":3.52,"avg_vader":0.25,"negative_share":22.32,"one_star_share":28.57},{"review_month":"2026-07","n":387.0,"avg_score":3.59,"avg_vader":0.3,"negative_share":21.45,"one_star_share":26.36},{"review_month":"2026-08","n":247.0,"avg_score":3.53,"avg_vader":0.26,"negative_share":22.67,"one_star_share":29.55}],"Lloyds":[{"review_month":"2025-08","n":839.0,"avg_score":4.57,"avg_vader":0.43,"negative_share":6.32,"one_star_share":6.08},{"review_month":"2025-09","n":1056.0,"avg_score":4.46,"avg_vader":0.4,"negative_share":9.28,"one_star_share":8.14},{"review_month":"2025-10","n":1155.0,"avg_score":4.53,"avg_vader":0.43,"negative_share":7.01,"one_star_share":7.53},{"review_month":"2025-11","n":1075.0,"avg_score":4.52,"avg_vader":0.43,"negative_share":8.0,"one_star_share":7.16},{"review_month":"2025-12","n":1132.0,"avg_score":4.44,"avg_vader":0.42,"negative_share":8.3,"one_star_share":8.3},{"review_month":"2026-01","n":1008.0,"avg_score":4.48,"avg_vader":0.42,"negative_share":8.13,"one_star_share":7.34},{"review_month":"2026-02","n":1069.0,"avg_score":4.56,"avg_vader":0.44,"negative_share":7.11,"one_star_share":6.55},{"review_month":"2026-03","n":1424.0,"avg_score":4.57,"avg_vader":0.43,"negative_share":6.32,"one_star_share":6.18},{"review_month":"2026-04","n":980.0,"avg_score":4.5,"avg_vader":0.44,"negative_share":7.45,"one_star_share":6.73},{"review_month":"2026-05","n":831.0,"avg_score":4.38,"avg_vader":0.38,"negative_share":11.19,"one_star_share":9.63},{"review_month":"2026-06","n":738.0,"avg_score":4.04,"avg_vader":0.33,"negative_share":15.04,"one_star_share":17.07},{"review_month":"2026-07","n":900.0,"avg_score":4.11,"avg_vader":0.38,"negative_share":14.22,"one_star_share":15.33},{"review_month":"2026-08","n":1656.0,"avg_score":3.72,"avg_vader":0.29,"negative_share":20.23,"one_star_share":22.22}],"Monzo":[{"review_month":"2025-09","n":94.0,"avg_score":3.85,"avg_vader":0.29,"negative_share":23.4,"one_star_share":26.6},{"review_month":"2025-10","n":185.0,"avg_score":4.05,"avg_vader":0.4,"negative_share":16.22,"one_star_share":19.46},{"review_month":"2025-11","n":169.0,"avg_score":4.1,"avg_vader":0.41,"negative_share":14.2,"one_star_share":20.12},{"review_month":"2025-12","n":180.0,"avg_score":3.99,"avg_vader":0.35,"negative_share":17.78,"one_star_share":20.0},{"review_month":"2026-01","n":226.0,"avg_score":3.91,"avg_vader":0.38,"negative_share":16.81,"one_star_share":22.12},{"review_month":"2026-02","n":178.0,"avg_score":4.16,"avg_vader":0.45,"negative_share":11.8,"one_star_share":17.42},{"review_month":"2026-03","n":206.0,"avg_score":3.69,"avg_vader":0.34,"negative_share":17.48,"one_star_share":28.64},{"review_month":"2026-04","n":156.0,"avg_score":3.97,"avg_vader":0.37,"negative_share":17.31,"one_star_share":21.15},{"review_month":"2026-05","n":258.0,"avg_score":4.35,"avg_vader":0.49,"negative_share":10.47,"one_star_share":12.79},{"review_month":"2026-06","n":370.0,"avg_score":4.23,"avg_vader":0.5,"negative_share":12.7,"one_star_share":16.49},{"review_month":"2026-07","n":404.0,"avg_score":4.27,"avg_vader":0.49,"negative_share":12.62,"one_star_share":15.84},{"review_month":"2026-08","n":256.0,"avg_score":3.91,"avg_vader":0.42,"negative_share":15.62,"one_star_share":22.27}],"NatWest":[{"review_month":"2026-01","n":139.0,"avg_score":4.01,"avg_vader":0.35,"negative_share":12.95,"one_star_share":16.55},{"review_month":"2026-02","n":290.0,"avg_score":3.56,"avg_vader":0.29,"negative_share":19.31,"one_star_share":28.62},{"review_month":"2026-03","n":412.0,"avg_score":3.85,"avg_vader":0.32,"negative_share":16.99,"one_star_share":19.17},{"review_month":"2026-04","n":245.0,"avg_score":3.35,"avg_vader":0.22,"negative_share":24.9,"one_star_share":29.39},{"review_month":"2026-05","n":322.0,"avg_score":3.61,"avg_vader":0.29,"negative_share":19.88,"one_star_share":26.09},{"review_month":"2026-06","n":306.0,"avg_score":3.57,"avg_vader":0.28,"negative_share":20.59,"one_star_share":26.14},{"review_month":"2026-07","n":513.0,"avg_score":3.73,"avg_vader":0.33,"negative_share":20.08,"one_star_share":23.78},{"review_month":"2026-08","n":454.0,"avg_score":3.83,"avg_vader":0.37,"negative_share":19.6,"one_star_share":22.47}],"Revolut":[{"review_month":"2025-08","n":1819.0,"avg_score":4.24,"avg_vader":0.4,"negative_share":11.93,"one_star_share":14.84},{"review_month":"2025-09","n":1872.0,"avg_score":4.04,"avg_vader":0.36,"negative_share":14.69,"one_star_share":20.09},{"review_month":"2025-10","n":1910.0,"avg_score":4.04,"avg_vader":0.38,"negative_share":13.66,"one_star_share":20.0},{"review_month":"2025-11","n":1792.0,"avg_score":4.05,"avg_vader":0.36,"negative_share":15.07,"one_star_share":19.42},{"review_month":"2025-12","n":1615.0,"avg_score":4.05,"avg_vader":0.35,"negative_share":15.11,"one_star_share":19.01},{"review_month":"2026-01","n":2624.0,"avg_score":4.35,"avg_vader":0.42,"negative_share":10.9,"one_star_share":12.8},{"review_month":"2026-02","n":4071.0,"avg_score":4.61,"avg_vader":0.47,"negative_share":6.53,"one_star_share":6.83},{"review_month":"2026-03","n":3047.0,"avg_score":4.48,"avg_vader":0.43,"negative_share":8.57,"one_star_share":9.58},{"review_month":"2026-04","n":2521.0,"avg_score":4.35,"avg_vader":0.41,"negative_share":10.0,"one_star_share":12.5},{"review_month":"2026-05","n":1990.0,"avg_score":4.19,"avg_vader":0.38,"negative_share":12.31,"one_star_share":15.33},{"review_month":"2026-06","n":1435.0,"avg_score":4.1,"avg_vader":0.36,"negative_share":14.98,"one_star_share":18.19},{"review_month":"2026-07","n":1907.0,"avg_score":4.19,"avg_vader":0.38,"negative_share":12.59,"one_star_share":15.94},{"review_month":"2026-08","n":2399.0,"avg_score":4.08,"avg_vader":0.4,"negative_share":12.63,"one_star_share":19.47}],"Starling":[{"review_month":"2025-10","n":91.0,"avg_score":4.62,"avg_vader":0.55,"negative_share":4.4,"one_star_share":6.59},{"review_month":"2025-11","n":280.0,"avg_score":4.6,"avg_vader":0.54,"negative_share":5.36,"one_star_share":7.5},{"review_month":"2025-12","n":238.0,"avg_score":4.53,"avg_vader":0.49,"negative_share":8.4,"one_star_share":7.98},{"review_month":"2026-01","n":206.0,"avg_score":4.52,"avg_vader":0.5,"negative_share":9.22,"one_star_share":7.77},{"review_month":"2026-02","n":240.0,"avg_score":4.53,"avg_vader":0.48,"negative_share":9.58,"one_star_share":9.17},{"review_month":"2026-03","n":280.0,"avg_score":4.73,"avg_vader":0.55,"negative_share":3.93,"one_star_share":4.64},{"review_month":"2026-04","n":190.0,"avg_score":4.62,"avg_vader":0.51,"negative_share":6.84,"one_star_share":6.84},{"review_month":"2026-05","n":179.0,"avg_score":4.46,"avg_vader":0.46,"negative_share":10.06,"one_star_share":9.5},{"review_month":"2026-06","n":356.0,"avg_score":4.44,"avg_vader":0.57,"negative_share":10.11,"one_star_share":10.67},{"review_month":"2026-07","n":371.0,"avg_score":4.37,"avg_vader":0.53,"negative_share":9.43,"one_star_share":11.59},{"review_month":"2026-08","n":253.0,"avg_score":4.28,"avg_vader":0.51,"negative_share":10.67,"one_star_share":14.23}],"Tide":[{"review_month":"2025-08","n":26.0,"avg_score":3.5,"avg_vader":0.24,"negative_share":15.38,"one_star_share":26.92},{"review_month":"2025-09","n":37.0,"avg_score":3.49,"avg_vader":0.24,"negative_share":27.03,"one_star_share":27.03},{"review_month":"2025-10","n":53.0,"avg_score":3.49,"avg_vader":0.27,"negative_share":30.19,"one_star_share":32.08},{"review_month":"2025-11","n":45.0,"avg_score":2.64,"avg_vader":0.17,"negative_share":33.33,"one_star_share":55.56},{"review_month":"2025-12","n":39.0,"avg_score":3.28,"avg_vader":0.13,"negative_share":35.9,"one_star_share":35.9},{"review_month":"2026-01","n":44.0,"avg_score":3.14,"avg_vader":0.15,"negative_share":29.55,"one_star_share":38.64},{"review_month":"2026-02","n":33.0,"avg_score":2.76,"avg_vader":-0.07,"negative_share":42.42,"one_star_share":39.39},{"review_month":"2026-03","n":52.0,"avg_score":2.85,"avg_vader":0.18,"negative_share":32.69,"one_star_share":48.08},{"review_month":"2026-04","n":58.0,"avg_score":2.81,"avg_vader":0.12,"negative_share":36.21,"one_star_share":48.28},{"review_month":"2026-05","n":45.0,"avg_score":2.87,"avg_vader":0.1,"negative_share":37.78,"one_star_share":51.11},{"review_month":"2026-06","n":49.0,"avg_score":2.53,"avg_vader":0.05,"negative_share":40.82,"one_star_share":55.1},{"review_month":"2026-07","n":62.0,"avg_score":2.71,"avg_vader":0.02,"negative_share":43.55,"one_star_share":53.23},{"review_month":"2026-08","n":77.0,"avg_score":1.81,"avg_vader":-0.04,"negative_share":45.45,"one_star_share":72.73}],"Wise":[{"review_month":"2025-08","n":1184.0,"avg_score":4.05,"avg_vader":0.37,"negative_share":14.02,"one_star_share":18.5},{"review_month":"2025-09","n":1842.0,"avg_score":4.1,"avg_vader":0.37,"negative_share":12.76,"one_star_share":17.1},{"review_month":"2025-10","n":2056.0,"avg_score":4.07,"avg_vader":0.38,"negative_share":13.86,"one_star_share":17.41},{"review_month":"2025-11","n":1746.0,"avg_score":4.07,"avg_vader":0.38,"negative_share":12.54,"one_star_share":17.64},{"review_month":"2025-12","n":1980.0,"avg_score":4.08,"avg_vader":0.37,"negative_share":13.28,"one_star_share":17.53},{"review_month":"2026-01","n":2121.0,"avg_score":4.16,"avg_vader":0.38,"negative_share":12.12,"one_star_share":15.56},{"review_month":"2026-02","n":2069.0,"avg_score":4.22,"avg_vader":0.39,"negative_share":11.6,"one_star_share":15.18},{"review_month":"2026-03","n":2240.0,"avg_score":4.23,"avg_vader":0.39,"negative_share":10.89,"one_star_share":14.73},{"review_month":"2026-04","n":1833.0,"avg_score":4.14,"avg_vader":0.38,"negative_share":13.09,"one_star_share":16.69},{"review_month":"2026-05","n":1993.0,"avg_score":4.09,"avg_vader":0.37,"negative_share":13.55,"one_star_share":17.21},{"review_month":"2026-06","n":2320.0,"avg_score":4.19,"avg_vader":0.41,"negative_share":11.72,"one_star_share":15.95},{"review_month":"2026-07","n":2401.0,"avg_score":4.13,"avg_vader":0.38,"negative_share":13.41,"one_star_share":16.87},{"review_month":"2026-08","n":2143.0,"avg_score":4.11,"avg_vader":0.36,"negative_share":14.28,"one_star_share":16.89}],"TradBank":[{"review_month":"2025-08","n":2316.0,"avg_score":4.3,"avg_vader":0.39,"negative_share":10.75,"one_star_share":12.13},{"review_month":"2025-09","n":2815.0,"avg_score":4.39,"avg_vader":0.41,"negative_share":9.7,"one_star_share":9.8},{"review_month":"2025-10","n":3077.0,"avg_score":4.34,"avg_vader":0.4,"negative_share":9.59,"one_star_share":10.92},{"review_month":"2025-11","n":3010.0,"avg_score":4.39,"avg_vader":0.4,"negative_share":10.23,"one_star_share":10.0},{"review_month":"2025-12","n":2932.0,"avg_score":4.34,"avg_vader":0.4,"negative_share":10.64,"one_star_share":10.5},{"review_month":"2026-01","n":2830.0,"avg_score":4.37,"avg_vader":0.41,"negative_share":9.65,"one_star_share":9.86},{"review_month":"2026-02","n":2929.0,"avg_score":4.38,"avg_vader":0.41,"negative_share":10.04,"one_star_share":10.34},{"review_month":"2026-03","n":3844.0,"avg_score":4.37,"avg_vader":0.4,"negative_share":9.89,"one_star_share":10.41},{"review_month":"2026-04","n":2751.0,"avg_score":4.28,"avg_vader":0.39,"negative_share":10.91,"one_star_share":11.3},{"review_month":"2026-05","n":2542.0,"avg_score":4.23,"avg_vader":0.38,"negative_share":12.51,"one_star_share":13.1},{"review_month":"2026-06","n":2435.0,"avg_score":3.85,"avg_vader":0.32,"negative_share":17.62,"one_star_share":19.92},{"review_month":"2026-07","n":2755.0,"avg_score":3.79,"avg_vader":0.33,"negative_share":18.87,"one_star_share":21.92},{"review_month":"2026-08","n":2923.0,"avg_score":3.61,"avg_vader":0.29,"negative_share":21.52,"one_star_share":25.45}],"NeoBank":[{"review_month":"2025-08","n":3031.0,"avg_score":4.16,"avg_vader":0.39,"negative_share":12.8,"one_star_share":16.4},{"review_month":"2025-09","n":3850.0,"avg_score":4.05,"avg_vader":0.36,"negative_share":14.16,"one_star_share":18.94},{"review_month":"2025-10","n":4301.0,"avg_score":4.06,"avg_vader":0.38,"negative_share":13.93,"one_star_share":18.65},{"review_month":"2025-11","n":4033.0,"avg_score":4.08,"avg_vader":0.38,"negative_share":13.46,"one_star_share":18.27},{"review_month":"2025-12","n":4055.0,"avg_score":4.08,"avg_vader":0.37,"negative_share":14.16,"one_star_share":17.9},{"review_month":"2026-01","n":5228.0,"avg_score":4.25,"avg_vader":0.4,"negative_share":11.78,"one_star_share":14.38},{"review_month":"2026-02","n":6598.0,"avg_score":4.46,"avg_vader":0.44,"negative_share":8.59,"one_star_share":10.02},{"review_month":"2026-03","n":5845.0,"avg_score":4.36,"avg_vader":0.42,"negative_share":9.79,"one_star_share":12.34},{"review_month":"2026-04","n":4798.0,"avg_score":4.25,"avg_vader":0.4,"negative_share":11.65,"one_star_share":14.53},{"review_month":"2026-05","n":4476.0,"avg_score":4.16,"avg_vader":0.38,"negative_share":12.91,"one_star_share":16.13},{"review_month":"2026-06","n":4537.0,"avg_score":4.16,"avg_vader":0.41,"negative_share":13.09,"one_star_share":16.8},{"review_month":"2026-07","n":5150.0,"avg_score":4.16,"avg_vader":0.39,"negative_share":13.18,"one_star_share":16.56},{"review_month":"2026-08","n":5129.0,"avg_score":4.06,"avg_vader":0.38,"negative_share":13.88,"one_star_share":19.09}]};
+const BENCHMARK = {"ANNA Money":[{"review_month":"2026-03","n":20.0,"avg_score":4.6,"avg_vader":0.48,"negative_share":15.0,"one_star_share":10.0},{"review_month":"2026-04","n":40.0,"avg_score":4.7,"avg_vader":0.54,"negative_share":15.0,"one_star_share":5.0},{"review_month":"2026-05","n":11.0,"avg_score":4.64,"avg_vader":0.65,"negative_share":9.09,"one_star_share":9.09}],"Barclays":[{"review_month":"2025-08","n":1167.0,"avg_score":4.54,"avg_vader":0.44,"negative_share":7.71,"one_star_share":6.6},{"review_month":"2025-09","n":1509.0,"avg_score":4.52,"avg_vader":0.44,"negative_share":7.49,"one_star_share":6.83},{"review_month":"2025-10","n":1580.0,"avg_score":4.43,"avg_vader":0.42,"negative_share":8.67,"one_star_share":8.86},{"review_month":"2025-11","n":1629.0,"avg_score":4.45,"avg_vader":0.41,"negative_share":9.94,"one_star_share":8.53},{"review_month":"2025-12","n":1515.0,"avg_score":4.44,"avg_vader":0.41,"negative_share":10.23,"one_star_share":8.84},{"review_month":"2026-01","n":1410.0,"avg_score":4.47,"avg_vader":0.43,"negative_share":8.37,"one_star_share":7.52},{"review_month":"2026-02","n":1327.0,"avg_score":4.54,"avg_vader":0.44,"negative_share":8.74,"one_star_share":6.71},{"review_month":"2026-03","n":1562.0,"avg_score":4.57,"avg_vader":0.43,"negative_share":7.62,"one_star_share":6.59},{"review_month":"2026-04","n":1313.0,"avg_score":4.45,"avg_vader":0.42,"negative_share":8.61,"one_star_share":7.62},{"review_month":"2026-05","n":1160.0,"avg_score":4.39,"avg_vader":0.42,"negative_share":10.0,"one_star_share":9.66},{"review_month":"2026-06","n":1167.0,"avg_score":3.87,"avg_vader":0.33,"negative_share":17.57,"one_star_share":18.42},{"review_month":"2026-07","n":955.0,"avg_score":3.59,"avg_vader":0.29,"negative_share":21.57,"one_star_share":25.34},{"review_month":"2026-08","n":566.0,"avg_score":3.18,"avg_vader":0.23,"negative_share":26.33,"one_star_share":35.51}],"HSBC":[{"review_month":"2025-08","n":310.0,"avg_score":2.65,"avg_vader":0.09,"negative_share":34.19,"one_star_share":49.35},{"review_month":"2025-09","n":250.0,"avg_score":3.34,"avg_vader":0.21,"negative_share":24.8,"one_star_share":34.8},{"review_month":"2025-10","n":342.0,"avg_score":3.26,"avg_vader":0.21,"negative_share":22.51,"one_star_share":31.87},{"review_month":"2025-11","n":306.0,"avg_score":3.57,"avg_vader":0.25,"negative_share":19.61,"one_star_share":27.78},{"review_month":"2025-12","n":285.0,"avg_score":3.4,"avg_vader":0.25,"negative_share":22.11,"one_star_share":28.07},{"review_month":"2026-01","n":273.0,"avg_score":3.66,"avg_vader":0.27,"negative_share":20.15,"one_star_share":27.84},{"review_month":"2026-02","n":243.0,"avg_score":3.73,"avg_vader":0.31,"negative_share":18.93,"one_star_share":25.1},{"review_month":"2026-03","n":446.0,"avg_score":3.51,"avg_vader":0.24,"negative_share":22.65,"one_star_share":29.15},{"review_month":"2026-04","n":213.0,"avg_score":3.26,"avg_vader":0.2,"negative_share":24.88,"one_star_share":34.27},{"review_month":"2026-05","n":229.0,"avg_score":3.74,"avg_vader":0.3,"negative_share":19.65,"one_star_share":24.89},{"review_month":"2026-06","n":224.0,"avg_score":3.52,"avg_vader":0.25,"negative_share":22.32,"one_star_share":28.57},{"review_month":"2026-07","n":387.0,"avg_score":3.59,"avg_vader":0.3,"negative_share":21.45,"one_star_share":26.36},{"review_month":"2026-08","n":247.0,"avg_score":3.53,"avg_vader":0.26,"negative_share":22.67,"one_star_share":29.55}],"Lloyds":[{"review_month":"2025-08","n":839.0,"avg_score":4.57,"avg_vader":0.43,"negative_share":6.32,"one_star_share":6.08},{"review_month":"2025-09","n":1056.0,"avg_score":4.46,"avg_vader":0.4,"negative_share":9.28,"one_star_share":8.14},{"review_month":"2025-10","n":1155.0,"avg_score":4.53,"avg_vader":0.43,"negative_share":7.01,"one_star_share":7.53},{"review_month":"2025-11","n":1075.0,"avg_score":4.52,"avg_vader":0.43,"negative_share":8.0,"one_star_share":7.16},{"review_month":"2025-12","n":1132.0,"avg_score":4.44,"avg_vader":0.42,"negative_share":8.3,"one_star_share":8.3},{"review_month":"2026-01","n":1008.0,"avg_score":4.48,"avg_vader":0.42,"negative_share":8.13,"one_star_share":7.34},{"review_month":"2026-02","n":1069.0,"avg_score":4.56,"avg_vader":0.44,"negative_share":7.11,"one_star_share":6.55},{"review_month":"2026-03","n":1424.0,"avg_score":4.57,"avg_vader":0.43,"negative_share":6.32,"one_star_share":6.18},{"review_month":"2026-04","n":980.0,"avg_score":4.5,"avg_vader":0.44,"negative_share":7.45,"one_star_share":6.73},{"review_month":"2026-05","n":831.0,"avg_score":4.38,"avg_vader":0.38,"negative_share":11.19,"one_star_share":9.63},{"review_month":"2026-06","n":738.0,"avg_score":4.04,"avg_vader":0.33,"negative_share":15.04,"one_star_share":17.07},{"review_month":"2026-07","n":900.0,"avg_score":4.11,"avg_vader":0.38,"negative_share":14.22,"one_star_share":15.33},{"review_month":"2026-08","n":1656.0,"avg_score":3.72,"avg_vader":0.29,"negative_share":20.23,"one_star_share":22.22}],"Monzo":[{"review_month":"2025-09","n":94.0,"avg_score":3.85,"avg_vader":0.29,"negative_share":23.4,"one_star_share":26.6},{"review_month":"2025-10","n":185.0,"avg_score":4.05,"avg_vader":0.4,"negative_share":16.22,"one_star_share":19.46},{"review_month":"2025-11","n":169.0,"avg_score":4.1,"avg_vader":0.41,"negative_share":14.2,"one_star_share":20.12},{"review_month":"2025-12","n":180.0,"avg_score":3.99,"avg_vader":0.35,"negative_share":17.78,"one_star_share":20.0},{"review_month":"2026-01","n":226.0,"avg_score":3.91,"avg_vader":0.38,"negative_share":16.81,"one_star_share":22.12},{"review_month":"2026-02","n":178.0,"avg_score":4.16,"avg_vader":0.45,"negative_share":11.8,"one_star_share":17.42},{"review_month":"2026-03","n":206.0,"avg_score":3.69,"avg_vader":0.34,"negative_share":17.48,"one_star_share":28.64},{"review_month":"2026-04","n":156.0,"avg_score":3.97,"avg_vader":0.37,"negative_share":17.31,"one_star_share":21.15},{"review_month":"2026-05","n":258.0,"avg_score":4.35,"avg_vader":0.49,"negative_share":10.47,"one_star_share":12.79},{"review_month":"2026-06","n":370.0,"avg_score":4.23,"avg_vader":0.5,"negative_share":12.7,"one_star_share":16.49},{"review_month":"2026-07","n":404.0,"avg_score":4.27,"avg_vader":0.49,"negative_share":12.62,"one_star_share":15.84},{"review_month":"2026-08","n":256.0,"avg_score":3.91,"avg_vader":0.42,"negative_share":15.62,"one_star_share":22.27}],"NatWest":[{"review_month":"2026-01","n":139.0,"avg_score":4.01,"avg_vader":0.35,"negative_share":12.95,"one_star_share":16.55},{"review_month":"2026-02","n":290.0,"avg_score":3.56,"avg_vader":0.29,"negative_share":19.31,"one_star_share":28.62},{"review_month":"2026-03","n":412.0,"avg_score":3.85,"avg_vader":0.32,"negative_share":16.99,"one_star_share":19.17},{"review_month":"2026-04","n":245.0,"avg_score":3.35,"avg_vader":0.22,"negative_share":24.9,"one_star_share":29.39},{"review_month":"2026-05","n":322.0,"avg_score":3.61,"avg_vader":0.29,"negative_share":19.88,"one_star_share":26.09},{"review_month":"2026-06","n":306.0,"avg_score":3.57,"avg_vader":0.28,"negative_share":20.59,"one_star_share":26.14},{"review_month":"2026-07","n":513.0,"avg_score":3.73,"avg_vader":0.33,"negative_share":20.08,"one_star_share":23.78},{"review_month":"2026-08","n":454.0,"avg_score":3.83,"avg_vader":0.37,"negative_share":19.6,"one_star_share":22.47}],"Revolut":[{"review_month":"2025-08","n":1819.0,"avg_score":4.24,"avg_vader":0.4,"negative_share":11.93,"one_star_share":14.84},{"review_month":"2025-09","n":1872.0,"avg_score":4.04,"avg_vader":0.36,"negative_share":14.69,"one_star_share":20.09},{"review_month":"2025-10","n":1910.0,"avg_score":4.04,"avg_vader":0.38,"negative_share":13.66,"one_star_share":20.0},{"review_month":"2025-11","n":1792.0,"avg_score":4.05,"avg_vader":0.36,"negative_share":15.07,"one_star_share":19.42},{"review_month":"2025-12","n":1615.0,"avg_score":4.05,"avg_vader":0.35,"negative_share":15.11,"one_star_share":19.01},{"review_month":"2026-01","n":2624.0,"avg_score":4.35,"avg_vader":0.42,"negative_share":10.9,"one_star_share":12.8},{"review_month":"2026-02","n":4071.0,"avg_score":4.61,"avg_vader":0.47,"negative_share":6.53,"one_star_share":6.83},{"review_month":"2026-03","n":3047.0,"avg_score":4.48,"avg_vader":0.43,"negative_share":8.57,"one_star_share":9.58},{"review_month":"2026-04","n":2521.0,"avg_score":4.35,"avg_vader":0.41,"negative_share":10.0,"one_star_share":12.5},{"review_month":"2026-05","n":1990.0,"avg_score":4.19,"avg_vader":0.38,"negative_share":12.31,"one_star_share":15.33},{"review_month":"2026-06","n":1435.0,"avg_score":4.1,"avg_vader":0.36,"negative_share":14.98,"one_star_share":18.19},{"review_month":"2026-07","n":1907.0,"avg_score":4.19,"avg_vader":0.38,"negative_share":12.59,"one_star_share":15.94},{"review_month":"2026-08","n":2399.0,"avg_score":4.08,"avg_vader":0.4,"negative_share":12.63,"one_star_share":19.47}],"Starling":[{"review_month":"2025-10","n":91.0,"avg_score":4.62,"avg_vader":0.55,"negative_share":4.4,"one_star_share":6.59},{"review_month":"2025-11","n":280.0,"avg_score":4.6,"avg_vader":0.54,"negative_share":5.36,"one_star_share":7.5},{"review_month":"2025-12","n":238.0,"avg_score":4.53,"avg_vader":0.49,"negative_share":8.4,"one_star_share":7.98},{"review_month":"2026-01","n":206.0,"avg_score":4.52,"avg_vader":0.5,"negative_share":9.22,"one_star_share":7.77},{"review_month":"2026-02","n":240.0,"avg_score":4.53,"avg_vader":0.48,"negative_share":9.58,"one_star_share":9.17},{"review_month":"2026-03","n":280.0,"avg_score":4.73,"avg_vader":0.55,"negative_share":3.93,"one_star_share":4.64},{"review_month":"2026-04","n":190.0,"avg_score":4.62,"avg_vader":0.51,"negative_share":6.84,"one_star_share":6.84},{"review_month":"2026-05","n":179.0,"avg_score":4.46,"avg_vader":0.46,"negative_share":10.06,"one_star_share":9.5},{"review_month":"2026-06","n":356.0,"avg_score":4.44,"avg_vader":0.57,"negative_share":10.11,"one_star_share":10.67},{"review_month":"2026-07","n":371.0,"avg_score":4.37,"avg_vader":0.53,"negative_share":9.43,"one_star_share":11.59},{"review_month":"2026-08","n":253.0,"avg_score":4.28,"avg_vader":0.51,"negative_share":10.67,"one_star_share":14.23}],"Tide":[{"review_month":"2025-08","n":26.0,"avg_score":3.5,"avg_vader":0.24,"negative_share":15.38,"one_star_share":26.92},{"review_month":"2025-09","n":37.0,"avg_score":3.49,"avg_vader":0.24,"negative_share":27.03,"one_star_share":27.03},{"review_month":"2025-10","n":53.0,"avg_score":3.49,"avg_vader":0.27,"negative_share":30.19,"one_star_share":32.08},{"review_month":"2025-11","n":45.0,"avg_score":2.64,"avg_vader":0.17,"negative_share":33.33,"one_star_share":55.56},{"review_month":"2025-12","n":39.0,"avg_score":3.28,"avg_vader":0.13,"negative_share":35.9,"one_star_share":35.9},{"review_month":"2026-01","n":44.0,"avg_score":3.14,"avg_vader":0.15,"negative_share":29.55,"one_star_share":38.64},{"review_month":"2026-02","n":33.0,"avg_score":2.76,"avg_vader":-0.07,"negative_share":42.42,"one_star_share":39.39},{"review_month":"2026-03","n":52.0,"avg_score":2.85,"avg_vader":0.18,"negative_share":32.69,"one_star_share":48.08},{"review_month":"2026-04","n":58.0,"avg_score":2.81,"avg_vader":0.12,"negative_share":36.21,"one_star_share":48.28},{"review_month":"2026-05","n":45.0,"avg_score":2.87,"avg_vader":0.1,"negative_share":37.78,"one_star_share":51.11},{"review_month":"2026-06","n":49.0,"avg_score":2.53,"avg_vader":0.05,"negative_share":40.82,"one_star_share":55.1},{"review_month":"2026-07","n":62.0,"avg_score":2.71,"avg_vader":0.02,"negative_share":43.55,"one_star_share":53.23},{"review_month":"2026-08","n":77.0,"avg_score":1.81,"avg_vader":-0.04,"negative_share":45.45,"one_star_share":72.73}],"Wise":[{"review_month":"2025-08","n":1184.0,"avg_score":4.05,"avg_vader":0.37,"negative_share":14.02,"one_star_share":18.5},{"review_month":"2025-09","n":1842.0,"avg_score":4.1,"avg_vader":0.37,"negative_share":12.76,"one_star_share":17.1},{"review_month":"2025-10","n":2056.0,"avg_score":4.07,"avg_vader":0.38,"negative_share":13.86,"one_star_share":17.41},{"review_month":"2025-11","n":1746.0,"avg_score":4.07,"avg_vader":0.38,"negative_share":12.54,"one_star_share":17.64},{"review_month":"2025-12","n":1980.0,"avg_score":4.08,"avg_vader":0.37,"negative_share":13.28,"one_star_share":17.53},{"review_month":"2026-01","n":2121.0,"avg_score":4.16,"avg_vader":0.38,"negative_share":12.12,"one_star_share":15.56},{"review_month":"2026-02","n":2069.0,"avg_score":4.22,"avg_vader":0.39,"negative_share":11.6,"one_star_share":15.18},{"review_month":"2026-03","n":2240.0,"avg_score":4.23,"avg_vader":0.39,"negative_share":10.89,"one_star_share":14.73},{"review_month":"2026-04","n":1833.0,"avg_score":4.14,"avg_vader":0.38,"negative_share":13.09,"one_star_share":16.69},{"review_month":"2026-05","n":1993.0,"avg_score":4.09,"avg_vader":0.37,"negative_share":13.55,"one_star_share":17.21},{"review_month":"2026-06","n":2320.0,"avg_score":4.19,"avg_vader":0.41,"negative_share":11.72,"one_star_share":15.95},{"review_month":"2026-07","n":2401.0,"avg_score":4.13,"avg_vader":0.38,"negative_share":13.41,"one_star_share":16.87},{"review_month":"2026-08","n":2143.0,"avg_score":4.11,"avg_vader":0.36,"negative_share":14.28,"one_star_share":16.89}],"TradBank":[{"review_month":"2025-08","n":2316.0,"avg_score":4.3,"avg_vader":0.39,"negative_share":10.75,"one_star_share":12.13},{"review_month":"2025-09","n":2815.0,"avg_score":4.39,"avg_vader":0.41,"negative_share":9.7,"one_star_share":9.8},{"review_month":"2025-10","n":3077.0,"avg_score":4.34,"avg_vader":0.4,"negative_share":9.59,"one_star_share":10.92},{"review_month":"2025-11","n":3010.0,"avg_score":4.39,"avg_vader":0.4,"negative_share":10.23,"one_star_share":10.0},{"review_month":"2025-12","n":2932.0,"avg_score":4.34,"avg_vader":0.4,"negative_share":10.64,"one_star_share":10.5},{"review_month":"2026-01","n":2830.0,"avg_score":4.37,"avg_vader":0.41,"negative_share":9.65,"one_star_share":9.86},{"review_month":"2026-02","n":2929.0,"avg_score":4.38,"avg_vader":0.41,"negative_share":10.04,"one_star_share":10.34},{"review_month":"2026-03","n":3844.0,"avg_score":4.37,"avg_vader":0.4,"negative_share":9.89,"one_star_share":10.41},{"review_month":"2026-04","n":2751.0,"avg_score":4.28,"avg_vader":0.39,"negative_share":10.91,"one_star_share":11.3},{"review_month":"2026-05","n":2542.0,"avg_score":4.23,"avg_vader":0.38,"negative_share":12.51,"one_star_share":13.1},{"review_month":"2026-06","n":2435.0,"avg_score":3.85,"avg_vader":0.32,"negative_share":17.62,"one_star_share":19.92},{"review_month":"2026-07","n":2755.0,"avg_score":3.79,"avg_vader":0.33,"negative_share":18.87,"one_star_share":21.92},{"review_month":"2026-08","n":2923.0,"avg_score":3.61,"avg_vader":0.29,"negative_share":21.52,"one_star_share":25.45}],"NeoBank":[{"review_month":"2025-08","n":3031.0,"avg_score":4.16,"avg_vader":0.39,"negative_share":12.8,"one_star_share":16.4},{"review_month":"2025-09","n":3850.0,"avg_score":4.05,"avg_vader":0.36,"negative_share":14.16,"one_star_share":18.94},{"review_month":"2025-10","n":4301.0,"avg_score":4.06,"avg_vader":0.38,"negative_share":13.93,"one_star_share":18.65},{"review_month":"2025-11","n":4033.0,"avg_score":4.08,"avg_vader":0.38,"negative_share":13.46,"one_star_share":18.27},{"review_month":"2025-12","n":4055.0,"avg_score":4.08,"avg_vader":0.37,"negative_share":14.16,"one_star_share":17.9},{"review_month":"2026-01","n":5228.0,"avg_score":4.25,"avg_vader":0.4,"negative_share":11.78,"one_star_share":14.38},{"review_month":"2026-02","n":6598.0,"avg_score":4.46,"avg_vader":0.44,"negative_share":8.59,"one_star_share":10.02},{"review_month":"2026-03","n":5845.0,"avg_score":4.36,"avg_vader":0.42,"negative_share":9.79,"one_star_share":12.34},{"review_month":"2026-04","n":4798.0,"avg_score":4.25,"avg_vader":0.4,"negative_share":11.65,"one_star_share":14.53},{"review_month":"2026-05","n":4476.0,"avg_score":4.16,"avg_vader":0.38,"negative_share":12.91,"one_star_share":16.13},{"review_month":"2026-06","n":4537.0,"avg_score":4.16,"avg_vader":0.41,"negative_share":13.09,"one_star_share":16.8},{"review_month":"2026-07","n":5150.0,"avg_score":4.16,"avg_vader":0.39,"negative_share":13.18,"one_star_share":16.56},{"review_month":"2026-08","n":5129.0,"avg_score":4.06,"avg_vader":0.38,"negative_share":13.88,"one_star_share":19.09}]};
 const CAC_INPUTS = [
 {"name":"All Apps","n_reviews":98190,"avg_score":4.2,"negative_share_pct":12.33,"kyc_onboarding_share_pct":0.37,"kyc_onboarding_n":362,"provider_group":"All"},
 {"name":"NeoBank","n_reviews":61031,"avg_score":4.19,"negative_share_pct":12.33,"kyc_onboarding_share_pct":0.52,"kyc_onboarding_n":315,"provider_group":"Group"},
 {"name":"TradBank","n_reviews":37159,"avg_score":4.21,"negative_share_pct":12.33,"kyc_onboarding_share_pct":0.13,"kyc_onboarding_n":47,"provider_group":"Group"},
-{"name":"ANNA Bank","n_reviews":115,"avg_score":3.69,"negative_share_pct":28.70,"kyc_onboarding_share_pct":1.74,"kyc_onboarding_n":2,"provider_group":"NeoBank"},
+{"name":"ANNA Money","n_reviews":115,"avg_score":3.69,"negative_share_pct":28.70,"kyc_onboarding_share_pct":1.74,"kyc_onboarding_n":2,"provider_group":"NeoBank"},
 {"name":"Barclays","n_reviews":16860,"avg_score":4.35,"negative_share_pct":10.67,"kyc_onboarding_share_pct":0.02,"kyc_onboarding_n":4,"provider_group":"TradBank"},
 {"name":"HSBC","n_reviews":3755,"avg_score":3.44,"negative_share_pct":22.82,"kyc_onboarding_share_pct":0.75,"kyc_onboarding_n":28,"provider_group":"TradBank"},
 {"name":"Lloyds","n_reviews":13863,"avg_score":4.36,"negative_share_pct":10.10,"kyc_onboarding_share_pct":0.09,"kyc_onboarding_n":12,"provider_group":"TradBank"},
@@ -396,9 +422,23 @@ const CAT_SHORT = {
   'Account Freeze/Restriction':'Freeze', 'Fees/Pricing':'Fees', 'Login/Access Issues':'Login',
   'Transfer Latency':'Transfer', 'UI/UX Bug':'UI/UX'
 };
+// Share of each group's OWN negative reviews, by complaint category, over the
+// same Aug 2025-Aug 2026 window used everywhere else, Klarna excluded.
+// Denominators: 7,526 NeoBank negatives, 4,607 TradBank negatives.
+const COMPLAINT_GAP = [
+  {cat:'Account Freeze/Restriction', neo:8.2, trad:1.7},
+  {cat:'Customer Support Friction',  neo:7.7, trad:3.5},
+  {cat:'KYC/Onboarding',             neo:2.1, trad:0.7},
+  {cat:'Fees/Pricing',               neo:1.5, trad:0.1},
+  {cat:'Transfer Latency',           neo:0.6, trad:0.1},
+  {cat:'Card Declines',              neo:0.3, trad:0.4},
+  {cat:'Login/Access Issues',        neo:0.9, trad:2.3},
+  {cat:'UI/UX Bug',                  neo:3.0, trad:7.6},
+].map(d => ({...d, gap: +(d.neo - d.trad).toFixed(1)}));
+
 const PROVIDER_GROUP = {
   'Barclays':'TradBank','HSBC':'TradBank','Lloyds':'TradBank','NatWest':'TradBank',
-  'Monzo':'NeoBank','Starling':'NeoBank','Revolut':'NeoBank','Wise':'NeoBank','Tide':'NeoBank','ANNA Bank':'NeoBank'
+  'Monzo':'NeoBank','Starling':'NeoBank','Revolut':'NeoBank','Wise':'NeoBank','Tide':'NeoBank','ANNA Money':'NeoBank'
 };
 const APP_NAMES = Object.keys(PROVIDER_GROUP).sort();
 
@@ -518,8 +558,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ren
    ============================================================ */
 const state = { metric:'avg_score', spotlight:'' };
 const METRIC_META = {
-  avg_score: {label:'Average rating', fmt:v=>v.toFixed(2), domain:[2,5]},
-  negative_share: {label:'Negative sentiment share', fmt:v=>v.toFixed(1)+'%', domain:[0,50]}
+  avg_score: {label:'Average rating', fmt:v=>v.toFixed(2), domain:[2,5]}
 };
 
 function allMonths(){
@@ -538,7 +577,10 @@ function renderSpotlightSelect(){
 function renderBenchmarkChart(){
   const months = allMonths();
   const meta = METRIC_META[state.metric];
-  const W=960,H=320, padL=44, padR=20, padT=16, padB=30;
+  // padR reserves a gutter for the end-of-line series labels. They used to be
+  // drawn at lastPoint.x + 8 with only 20px of room, so 'Traditional banks'
+  // ran straight past the right edge of the viewBox and was clipped.
+  const W=960,H=320, padL=44, padR=132, padT=16, padB=30;
   const innerW = W-padL-padR, innerH = H-padT-padB;
   const x = i => padL + (innerW * i/(months.length-1));
   const [dmin,dmax] = meta.domain;
@@ -579,15 +621,30 @@ function renderBenchmarkChart(){
     svg += `<text class="axis-label" x="${x(i)}" y="${H-8}" text-anchor="middle">${monthLabel(m)}</text>`;
   });
 
-  const lines = series.map(s=>{
-    const {d,pts} = pathFor(s.key);
-    const last = pts[pts.length-1];
+  // Labels are left-aligned in the gutter at a fixed x rather than trailing each
+  // dot, and nudged apart vertically when two series finish at nearly the same
+  // value, so they can neither overflow the chart nor overlap each other.
+  const LABEL_X = W - padR + 10, MIN_GAP = 15;
+  const ends = series.map(s => { const {d,pts} = pathFor(s.key); return {s,d,pts,last:pts[pts.length-1]}; });
+  const stack = ends.filter(e => e.last).sort((a,b) => a.last.y - b.last.y);
+  stack.forEach((e,i) => {
+    e.labelY = (i > 0 && e.last.y - stack[i-1].labelY < MIN_GAP)
+      ? stack[i-1].labelY + MIN_GAP : e.last.y;
+  });
+  const spill = stack.length ? stack[stack.length-1].labelY - (H - padB) : 0;
+  if(spill > 0) stack.forEach(e => { e.labelY -= spill; });
+
+  const lines = ends.map(e=>{
+    const s = e.s, last = e.last, d = e.d, pts = e.pts;
     const dot = last ? `<circle cx="${last.x}" cy="${last.y}" r="4" fill="${s.color}" stroke="var(--surface)" stroke-width="2"/>` : '';
-    const dlabel = last ? `<text x="${last.x+8}" y="${last.y+4}" font-size="11" font-family="IBM Plex Mono" fill="${s.color}" font-weight="600">${s.label}</text>` : '';
+    // leader line, drawn only when the label had to be nudged off its data point
+    const lead = (last && Math.abs(e.labelY - last.y) > 1)
+      ? `<line x1="${last.x+5}" y1="${last.y}" x2="${LABEL_X-4}" y2="${e.labelY}" stroke="${s.color}" stroke-width="1" opacity="0.4"/>` : '';
+    const dlabel = last ? `<text x="${LABEL_X}" y="${e.labelY+4}" font-size="11" font-family="IBM Plex Mono" fill="${s.color}" font-weight="600">${s.label}</text>` : '';
     return `<g data-series="${s.key}">
       <path d="${d}" fill="none" stroke="${s.color}" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>
       ${pts.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="9" fill="transparent" data-x="${p.x}" data-m="${p.m}"></circle>`).join('')}
-      ${dot}${dlabel}
+      ${lead}${dot}${dlabel}
     </g>`;
   }).join('');
 
@@ -637,14 +694,7 @@ function renderTableView(){
   document.getElementById('table-view').innerHTML = html;
 }
 
-document.querySelectorAll('#panel-benchmark [data-metric]').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    document.querySelectorAll('#panel-benchmark [data-metric]').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    state.metric = btn.dataset.metric;
-    renderBenchmarkChart(); renderTableView();
-  });
-});
+/* Metric toggle removed — single metric (Avg. Rating) */
 document.getElementById('toggle-table').addEventListener('click', (e)=>{
   const tv = document.getElementById('table-view');
   const chartBox = document.getElementById('chart-box');
@@ -673,7 +723,16 @@ function sparkPath(values, w, h, pad){
 }
 function renderSparklines(){
   const w=160,h=32,pad=4;
-  const html = APP_NAMES.map(app=>{
+  /* Sort apps by churn-risk tier: High first, then Elevated, then Low */
+  const tierRank = label => label === 'High' ? 0 : label === 'Elevated' ? 1 : 2;
+  const sortedApps = APP_NAMES.slice().sort((a,b)=>{
+    const serA = (BENCHMARK[a]||[]).slice().sort((x,y)=>x.review_month.localeCompare(y.review_month));
+    const serB = (BENCHMARK[b]||[]).slice().sort((x,y)=>x.review_month.localeCompare(y.review_month));
+    const tA = serA.length ? tierRank(tierFor(serA[serA.length-1].one_star_share).label) : 2;
+    const tB = serB.length ? tierRank(tierFor(serB[serB.length-1].one_star_share).label) : 2;
+    return tA - tB || a.localeCompare(b);
+  });
+  const html = sortedApps.map(app=>{
     const series = (BENCHMARK[app]||[]).slice().sort((a,b)=>a.review_month.localeCompare(b.review_month));
     if(series.length===0) return '';
     const last = series[series.length-1];
@@ -756,6 +815,33 @@ function renderCACBenchmarkTable(){
   document.getElementById('cac-benchmark-table').innerHTML = thead + '<tbody>' + tbody + '</tbody>';
 }
 
+function renderComplaintDrivers(){
+  const rows = [...COMPLAINT_GAP].sort((a,b)=>b.gap-a.gap);
+  const maxAbs = Math.max(...rows.map(d=>Math.abs(d.gap)));
+  const thead = `<thead><tr>
+    <th style="text-align:left;">Complaint category</th>
+    <th>Neobanks</th><th>Traditional</th><th>Gap</th>
+    <th style="text-align:center;">&larr; Traditional&nbsp;more &nbsp;&middot;&nbsp; Neobank&nbsp;more &rarr;</th>
+  </tr></thead>`;
+  const tbody = rows.map(d=>{
+    const neoSide = d.gap >= 0;
+    const color = neoSide ? 'var(--accent-2)' : 'var(--accent)';
+    // Bar is purely graphical and capped at half the cell; the number lives in
+    // its own column so nothing can ever run past the cell edge.
+    const w = (Math.abs(d.gap)/maxAbs)*50;
+    const bar = `<div class="dgap"><div class="dgap-axis"></div>`
+      + `<div class="dgap-bar" style="${neoSide?'left:50%':'right:50%'};width:${w.toFixed(1)}%;background:${color};"></div></div>`;
+    return `<tr>
+      <td style="text-align:left;font-family:var(--font-body);font-weight:600;">${d.cat}</td>
+      <td>${d.neo.toFixed(1)}%</td>
+      <td>${d.trad.toFixed(1)}%</td>
+      <td style="color:${color};font-weight:600;">${d.gap>0?'+':''}${d.gap.toFixed(1)}pp</td>
+      <td>${bar}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('drivers-table').innerHTML = thead + '<tbody>' + tbody + '</tbody>';
+}
+
 /* ============================================================
    INIT
    ============================================================ */
@@ -764,6 +850,7 @@ renderHeatmap();
 renderSpotlightSelect();
 renderBenchmarkChart();
 renderSparklines();
+renderComplaintDrivers();
 renderCACBenchmarkTable();
 </script>
 

@@ -1,6 +1,6 @@
 -- =====================================================================
 -- Q1 — Initial Data Exploration 
--- Source: app_reviews_sentiment_analysis, Klarna excluded
+-- Source: app_reviews_sentiment_analysis (Klarna removed from source; no filter needed)
 -- Run each SELECT independently in the BigQuery console.
 -- =====================================================================
 
@@ -8,21 +8,20 @@
 -- NOTE: app_version is NOT a column on app_reviews_sentiment_analysis
 -- (it exists only on the raw_app_store_*/raw_google_play_* tables), so the
 -- "% NULL app_version" check from the original plan is omitted here.
+
 SELECT
   COUNT(*) AS total_reviews,
   MIN(DATE(reviewed_at)) AS min_review_date,
   MAX(DATE(reviewed_at)) AS max_review_date,
   COUNT(DISTINCT app) AS n_apps,
   COUNT(DISTINCT platform) AS n_platforms
-FROM `fintech-reviews-analytics.fintech_app_reviews.app_reviews_sentiment_analysis`
-WHERE app != 'Klarna';
+FROM `fintech-reviews-analytics.fintech_app_reviews.app_reviews_sentiment_analysis`;
 
 -- 1b. Score histogram (1-5 stars)
 SELECT
   score,
   COUNT(*) AS n_reviews
 FROM `fintech-reviews-analytics.fintech_app_reviews.app_reviews_sentiment_analysis`
-WHERE app != 'Klarna'
 GROUP BY score
 ORDER BY score;
 
@@ -33,7 +32,6 @@ SELECT
   COUNT(*) AS n_reviews,
   AVG(LENGTH(content)) AS avg_content_length
 FROM `fintech-reviews-analytics.fintech_app_reviews.app_reviews_sentiment_analysis`
-WHERE app != 'Klarna'
 GROUP BY app, platform
 ORDER BY app, platform;
 
@@ -51,7 +49,6 @@ SELECT
   COUNT(*) AS n_reviews
 FROM `fintech-reviews-analytics.fintech_app_reviews.app_reviews_sentiment_analysis` r
 JOIN provider_map m USING (app)
-WHERE r.app != 'Klarna'
 GROUP BY m.provider_group
 ORDER BY m.provider_group;
 
@@ -62,7 +59,6 @@ SELECT
   primary_category,
   COUNT(*) AS n_reviews
 FROM `fintech-reviews-analytics.fintech_app_reviews.app_reviews_sentiment_analysis`
-WHERE app != 'Klarna'
 GROUP BY primary_category
 ORDER BY n_reviews DESC;
 
@@ -75,7 +71,6 @@ WITH exploded AS (
     cat AS category
   FROM `fintech-reviews-analytics.fintech_app_reviews.app_reviews_sentiment_analysis`,
     UNNEST(SPLIT(NULLIF(categories, ''), ';')) AS cat
-  WHERE app != 'Klarna'
 )
 SELECT
   category,
@@ -92,6 +87,5 @@ SELECT
   COUNT(*) AS n_reviews,
   AVG(vader_compound) AS avg_vader_compound
 FROM `fintech-reviews-analytics.fintech_app_reviews.app_reviews_sentiment_analysis`
-WHERE app != 'Klarna'
 GROUP BY score
 ORDER BY score;

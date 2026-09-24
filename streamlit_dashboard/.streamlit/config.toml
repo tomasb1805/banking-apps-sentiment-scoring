@@ -1,0 +1,13 @@
+# No [theme] block on purpose.
+#
+# When Streamlit has no pinned theme it follows the viewer's browser/OS
+# dark-mode preference automatically, which is what makes this app work in
+# both light and dark browsers. Pinning any [theme] key here would lock every
+# viewer into that one appearance.
+#
+# Plotly figures can't read that preference themselves, so the palette in
+# utils/theme.py detects it (via st.context.theme where available) and the
+# sidebar's Auto/Light/Dark control overrides it.
+
+[browser]
+gatherUsageStats = false

@@ -1,6 +1,6 @@
 -- =====================================================================
 -- Q2 — VADER Evolution (Line Chart, Monthly, App + Superset)
--- Source: app_reviews_sentiment_analysis, Klarna excluded
+-- Source: app_reviews_sentiment_analysis (Klarna removed from source; no filter needed)
 -- Output: one row per (app|provider_group) x review_month, for a 12-line
 -- chart (10 apps + TradBank/NeoBank supersets).
 -- =====================================================================
@@ -22,7 +22,6 @@ base AS (
     r.vader_sentiment
   FROM `fintech-reviews-analytics.fintech_app_reviews.app_reviews_sentiment_analysis` r
   JOIN provider_map m USING (app)
-  WHERE r.app != 'Klarna'
 ),
 monthly_app AS (
   SELECT

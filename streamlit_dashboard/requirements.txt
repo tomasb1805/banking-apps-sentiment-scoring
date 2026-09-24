@@ -1,0 +1,19 @@
+# Deployment manifest for this dashboard.
+#
+# Streamlit Community Cloud installs from the first dependency file it finds,
+# checking the app entrypoint's directory before the repo root -- so this file
+# is what the deployed app gets. Keep it: without it, Cloud falls back to the
+# project's environment.yml and installs the whole analysis pipeline
+# (jupyterlab, the scrapers, the Google Cloud SDKs) into an app that reads two
+# CSVs and holds no credentials.
+#
+# The project's root environment.yml also carries these same pins, so a local
+# `conda env create -f environment.yml` runs the dashboard as well. If you
+# change a pin here, change it there too.
+#
+# streamlit>=1.46 adds st.context.theme, used to auto-match charts to the
+# viewer's dark-mode setting. Older versions still run this app -- the
+# sidebar's Auto/Light/Dark control is the fallback.
+streamlit>=1.46
+pandas>=2.2
+plotly>=5.22

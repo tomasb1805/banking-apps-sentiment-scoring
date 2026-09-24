@@ -1,3 +1,28 @@
+# Local development environment for the whole project: scraping, analysis,
+# the BigQuery upload, and the Streamlit dashboard.
+#
+# TWO DEPENDENCY FILES, ON PURPOSE
+# --------------------------------
+# This file is for working on the project locally. The dashboard also has its
+# own streamlit_dashboard/requirements.txt, which is the manifest Streamlit
+# Community Cloud installs from when the app is deployed. Do not delete it and
+# point the deployment at this file instead:
+#
+#   * Community Cloud looks in the app entrypoint's directory first, then the
+#     repo root, and uses only the FIRST dependency file it finds. Removing
+#     streamlit_dashboard/requirements.txt makes it fall back to this file.
+#   * This file would then install jupyterlab, matplotlib, the scrapers and the
+#     Google Cloud client libraries into the deployed app -- none of which the
+#     dashboard imports. Slower builds, a much bigger image, for no gain.
+#   * It would also put google-cloud-bigquery and google-cloud-secret-manager
+#     back into the deployed app's runtime. The dashboard was deliberately
+#     stripped of every live-query path so it needs no cloud credential at all
+#     (see streamlit_dashboard/README.md); shipping the SDKs anyway re-widens
+#     that surface and contradicts the design.
+#
+# The dashboard's pins below are kept in sync with
+# streamlit_dashboard/requirements.txt. If you change one, change both.
+
 name: fintech-app-reviews
 channels:
   - conda-forge
@@ -5,14 +30,19 @@ channels:
 dependencies:
   - python=3.11
   - pip
-  - pandas
+  - pandas>=2.2
   - requests
   - matplotlib
   - ipykernel
   - jupyterlab
   - pip:
+    # Collection and analysis pipeline
     - google-play-scraper
     - app-store-scraper
     - vaderSentiment
     - google-cloud-bigquery
     - google-cloud-secret-manager
+    # Streamlit dashboard (streamlit_dashboard/) -- so one `conda env create`
+    # runs the dashboard too. Mirrors streamlit_dashboard/requirements.txt.
+    - streamlit>=1.46
+    - plotly>=5.22

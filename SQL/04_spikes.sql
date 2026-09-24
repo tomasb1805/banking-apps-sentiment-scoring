@@ -1,7 +1,7 @@
 -- =====================================================================
 -- Q4 — Version Rollout vs Negative Spikes (14-Day Window)
 -- Source: app_reviews_sentiment_analysis (reviews) + app_updates_release
--- (releases), Klarna excluded.
+-- (releases). Klarna removed from source; no filter needed.
 -- NOTE: baseline is a 14-row trailing average computed AFTER restricting
 -- to the post-release window, so it is most meaningful when an app's
 -- releases are more than ~14 days apart (no overlapping rollout windows).
@@ -10,7 +10,6 @@
 WITH rel AS (
   SELECT app, version, DATE(release_date) AS release_date
   FROM `fintech-reviews-analytics.fintech_app_reviews.app_updates_release`
-  WHERE app != 'Klarna'
 ),
 daily AS (
   SELECT
@@ -20,7 +19,6 @@ daily AS (
     COUNT(*) AS n,
     AVG(IF(vader_sentiment = 'negative', 1, 0)) AS neg_share
   FROM `fintech-reviews-analytics.fintech_app_reviews.app_reviews_sentiment_analysis`
-  WHERE app != 'Klarna'
   GROUP BY 1, 2
 )
 SELECT
@@ -47,6 +45,5 @@ SELECT
   DATE_TRUNC(DATE(release_date), MONTH) AS release_month,
   COUNT(*) AS n_releases
 FROM `fintech-reviews-analytics.fintech_app_reviews.app_updates_release`
-WHERE app != 'Klarna'
 GROUP BY 1, 2
 ORDER BY app, release_month;
