@@ -213,7 +213,8 @@ The BigQuery warehouse holds three layers: one raw table per provider per store,
 ## Analytical Insights:
 
 ### Insight 1: Negative Review Spikes vs App Updates Rollout
-![[releases-heat-map.png]]
+
+![releases-friction-heat-map](resources/releases-heat-map.png)
 
 Friction per app release registers as a sporadic episode and is not linked to each new release. Within the period covered only three out of ten app versions show an out-of-range complaint spike:
 
