@@ -46,11 +46,13 @@ The investigation focuses on the following key questions:
 	- _**Note:** this should be considered as a hypothetical model built against plausible market figures. For more information see **Limitations.**_
 
 This analysis is a proof of concept structured as an end-to-end pipeline: collection, transformation, analysis and reporting.
+
 ## Executive Summary:
 
 Across 98,190 App Store and Google Play reviews of ten UK banking apps between August 2025 and August 2026, the headline finding is a reversal: Traditional banks began the window rated _above_ the NeoBanks cohort and ended it clearly _below_.
 
 Traditional banks' average rating fell from 4.39 (Sep 2025) to **3.61** (Aug 2026) — a 0.78-point decline concentrated almost entirely in the final quarter. NeoBanks moved barely at all over the same period, 4.16 to 4.06, having peaked at 4.46 in February 2026. The crossover occurs in **June 2026**, and from that point the two cohorts diverge considerably. One-star share tells the same story more sharply: Traditional banks' one-star reviews more than doubled, from 12.1% to 25.5%.
+
 ## Data Structure and Initial Checks:
 
 I collected the data from two major marketplaces: App Store (iOS) and Google Play (Android). 
@@ -65,6 +67,7 @@ The review volume is heavily skewed towards Revolut (29,002) and Wise (25,928), 
 I wrote additional Python scripts to parse, clean and structure the data before uploading it to Google BigQuery with a final Python script. 
 
 ### Data Quality:
+
 During the data quality checks, I applied three conditions before running any analysis:
 
 - Reviews are restricted to Aug 2025 – Aug 2026. Per-app historical review volume varies wildly in the raw data because the scrape stopped on a review-count quota rather than a fixed start date. I restricted the time window over which all ten providers are genuinely comparable.
@@ -74,6 +77,7 @@ During the data quality checks, I applied three conditions before running any an
 - During the checks I acknowledged that some providers were not perfectly suitable for the intended scope. I decided to exclude Klarna due to its lending-oriented services as a Buy Now Pay Later (BNPL) provider, and to keep Wise, ANNA Money and Tide: while their regulatory status is different from that of a licensed bank (Electronic Money Institution for ANNA Money and Wise, Banking-as-a-Service for Tide), they still offer services comparable to traditional account-holding institutions.
 
 ### Pipeline Structure:
+
 A schematic of the pipeline and the BigQuery schema are as follows:
 
 ```mermaid
@@ -150,6 +154,7 @@ flowchart TB
 > credential.  _**Note:** Release notes are collected for iOS only._
 
 ##### BigQuery schema
+
 ```mermaid
 %%{init: {'er': {'useMaxWidth': true}}}%%
 erDiagram
@@ -213,7 +218,6 @@ The BigQuery warehouse holds three layers: one raw table per provider per store,
 ## Analytical Insights:
 
 ### Insight 1: Negative Review Spikes vs App Updates Rollout
-
 ![releases-friction-heat-map](resources/releases-heat-map.png)
 
 Friction per app release registers as a sporadic episode and is not linked to each new release. Within the period covered only three out of ten app versions show an out-of-range complaint spike:
@@ -225,8 +229,7 @@ The remaining seven sit between +1.0pp and +5.0pp, which is ordinary spread.
 > As a note, due to lower sample size, smaller apps such as Tide and ANNA Money tend to be more volatile compared to other providers.
 
 ### Insight 2: Sentiment Trend Comparison and Churn Risk Benchmark
-
-![[sentiment-trend.png]]
+![sentiment-trend](resources/sentiment-trend.png)
 
 The average rating movement for both cohorts shows a similar trend up to June 2026, when Traditional banks decline sharply while NeoBanks' rating remains stable as in previous months.
 
@@ -236,7 +239,7 @@ Notable trend reversals include:
 	Branch-closure programmes and service disruptions are potential candidates for this drop and should be tested directly.
 
 
-![[churn-risk-table.png]]
+![churn-risk-table](resources/churn-risk-table.png)
 
 The bottom dashboard highlights churn risk and the average rating movement for each provider. 
 
@@ -245,7 +248,7 @@ Barclays, Tide, and HSBC lead the churn risk table, with the first two displayin
 > _**Note:**_ Churn Risk is calculated as the monthly one-star reviews share within the same period.
 
 ### Insight 3: Customer Complaint Drivers
-![[complaint-drivers.png]]
+![complaint-drivers](resources/complaint-drivers.png)
 
 For the NeoBank cohort, observed complaints cluster on Account Freeze and Restrictions (with a 6.5 pp above baseline), immediately followed by Customer Support Friction (+4.2 pp).
 
@@ -254,7 +257,7 @@ Traditional banks lag behind in technological delivery: Login/Access Issues and 
 Thanks to a leaner infrastructure, Challenger banks adopt new technologies at a faster pace than Traditional bank competition. On the other hand, compliance and onboarding are common pain points for NeoBanks' customers.
 
 ### Insight 4: Customer Acquisition Cost Modelling
-![[friction-exposure-table.png]]
+![friction-exposure](resources/friction-exposure-table.png)
 
 This section is a hypothetical Customer Acquisition Cost (CAC) model built with plausible market benchmarks and estimated 10,000 app installs.
 
