@@ -64,7 +64,7 @@ The review volume is heavily skewed towards Revolut (29,002) and Wise (25,928), 
 
 I wrote additional Python scripts to parse, clean and structure the data before uploading it to Google BigQuery with a final Python script. 
 
-##### Data Quality:
+### Data Quality:
 During the data quality checks, I applied three conditions before running any analysis:
 
 - Reviews are restricted to Aug 2025 – Aug 2026. Per-app historical review volume varies wildly in the raw data because the scrape stopped on a review-count quota rather than a fixed start date. I restricted the time window over which all ten providers are genuinely comparable.
@@ -73,7 +73,7 @@ During the data quality checks, I applied three conditions before running any an
 
 - During the checks I acknowledged that some providers were not perfectly suitable for the intended scope. I decided to exclude Klarna due to its lending-oriented services as a Buy Now Pay Later (BNPL) provider, and to keep Wise, ANNA Money and Tide: while their regulatory status is different from that of a licensed bank (Electronic Money Institution for ANNA Money and Wise, Banking-as-a-Service for Tide), they still offer services comparable to traditional account-holding institutions.
 
-##### Pipeline Structure:
+### Pipeline Structure:
 A schematic of the pipeline and the BigQuery schema are as follows:
 
 ```mermaid
