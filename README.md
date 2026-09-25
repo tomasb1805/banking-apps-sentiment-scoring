@@ -153,7 +153,7 @@ flowchart TB
 > artefact reads a static CSV export, so no deployed component holds a BigQuery
 > credential.  _**Note:** Release notes are collected for iOS only._
 
-##### BigQuery schema
+### BigQuery schema
 
 ```mermaid
 %%{init: {'er': {'useMaxWidth': true}}}%%
@@ -291,16 +291,20 @@ The results of this analysis lend themselves to extension as a predictive churn 
 
 ## Issues encountered:
 
-**_App Store's 500-review limit:_** The authenticated Apple endpoint returned 401 due to a malformed JSON Web Token (JWT); several attempts to generate different keys returned the same result. I approached the collection phase with an alternative method: a public RSS customer-reviews feed. The drawback is that the feed can supply a maximum of 10 pages of 50 reviews, so no iOS app can exceed 500 reviews regardless of how many exist — which is why the dataset is composed of 96% Android records. 
+**_App Store's 500-review limit:_**
+The authenticated Apple endpoint returned 401 due to a malformed JSON Web Token (JWT); several attempts to generate different keys returned the same result. I approached the collection phase with an alternative method: a public RSS customer-reviews feed. The drawback is that the feed can supply a maximum of 10 pages of 50 reviews, so no iOS app can exceed 500 reviews regardless of how many exist — which is why the dataset is composed of 96% Android records. 
 	**_It can be avoided by:_** Designing the data collection requirements beforehand, including source(s), desired sample size, and external dependencies requirements.
 
-**_Filtering at the query instead of removing at the source:_** Klarna was filtered during the SQL querying layer but the rows stayed in the dataset, occupying storage and polluting the dashboards by trickling down the pipeline as an unidentified "Other" provider group.
+**_Filtering at the query instead of removing at the source:_**
+Klarna was filtered during the SQL querying layer but the rows stayed in the dataset, occupying storage and polluting the dashboards by trickling down the pipeline as an unidentified "Other" provider group.
 	**_It can be avoided by:_** Deleting unneeded data at the source. Data Quality needs to side with Data Requirements and Governance processes as a single pass-on check.
 	
-**_High Volume Providers elude the negative spike threshold:_** Revolut and Wise had no spikes detected at all. Their review volume is high enough that no single day moves the daily average past the baseline. This is a limitation of the threshold-based approach.
+**_High Volume Providers elude the negative spike threshold:_**
+Revolut and Wise had no spikes detected at all. Their review volume is high enough that no single day moves the daily average past the baseline. This is a limitation of the threshold-based approach.
 	**_It can be avoided by:_** Implementing a more rigorous approach than absolute deviation from the baseline: a normalised threshold, z-score or IQR-based, could address this issue.
 
-**_Architecture chosen too early_:** The dashboard originally queried BigQuery live using a service-account key stored in the cloud platform's secrets. Due to security concerns as the project is a public portfolio piece, that feature was reconsidered. Removing that capability required stripping the client, rewriting a page that could not run without it.
+**_Architecture chosen too early_:**
+The dashboard originally queried BigQuery live using a service-account key stored in the cloud platform's secrets. Due to security concerns as the project is a public portfolio piece, that feature was reconsidered. Removing that capability required stripping the client, rewriting a page that could not run without it.
 	**_It can be avoided by:_** Similarly to issue 1, a planning and testing phase must be implemented before deploying.
 
 ## Limitations, Caveats and Assumptions:
@@ -342,7 +346,7 @@ Google Play does not make public changelogs for apps stored in the marketplace. 
 
 <p align="center">
   <strong>Brian Tomassoni</strong><br>
-  <em>Data Analyst · Credit Risk Domain</em>
+  <em>Business Data Analyst</em>
 </p>
 
 <p align="center">
@@ -360,6 +364,6 @@ Google Play does not make public changelogs for apps stored in the marketplace. 
 </p>
 
 <p align="center">
-  Built as a portfolio project demonstrating end-to-end ML system design,<br>
-  credit risk domain knowledge, and production-aware engineering practices.
+  Built as a portfolio project demonstrating data analytics pipeline design,<br>
+  finance industry domain knowledge, and production-aware practices.
 </p>
