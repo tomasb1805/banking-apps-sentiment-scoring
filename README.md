@@ -325,10 +325,10 @@ The dashboard originally queried BigQuery live using a service-account key store
 
 ## Limitations, Caveats and Assumptions:
 
-**_Proof of concept:_** 
+#### _Proof of concept:_
 This project is built to demonstrate an analysis pipeline end to end, not to produce audited figures for commercial decisions. It is a static snapshot with no live refresh; every number is as of end of August 2026.
 
-**_The CAC model as a plausible, but not real-world ready model:_**
+#### _The CAC model as a plausible, but not real-world ready model:_
 Due to missing account-cancellation data, industry benchmarks were employed in the calculations to build the model.
 
 The model assumes the following inputs:
@@ -339,18 +339,18 @@ The model assumes the following inputs:
 
 Each figure is applied to each provider's observed onboarding-complaint prevalence. None of those four assumptions is directly measured from this data.
 
-**_Acquisition Channels Difference:_**
+#### _Acquisition Channels Difference:_
 Traditional banks acquire new customers across branches, web, direct mail and aggregators; NeoBanks are effectively digital-only. The two cohorts are benchmarked separately for this reason, but this distorts the magnitude of the actual effect.
 
-**_Limited sample size in CAC inputs:_**
+#### _Limited sample size in CAC inputs:_
 Three of the four providers in the "highest exposure" bucket rest on fewer than ten reviews. Only Wise, Revolut and HSBC (n = 28) have counts that support any comparison at all. The table should be read as a demonstration of method, not as a ranking of real commercial exposure.
 
-**_VADER's limits in this analysis:_**
+#### _VADER's limits in this analysis:_
 VADER is a rule-based lexicon tuned for social media. It cannot read sarcasm, and could score a factual one-star complaint written calmly as near-neutral. Sentiment labels here should be treated as a coarse filter, not as a precise measurement.
 
 Alternatives, while still being vulnerable to edge cases, could employ a transformer-based analysis (especially an ad-hoc finance transformer), or a DBSCAN clustering / SVM classification oriented analysis depending on labelled dataset availability.
 
-**_Changelog data available for iOS only:_**
+#### _Changelog data available for iOS only:_
 Google Play does not make public changelogs for apps stored in the marketplace. While some alternative options were available, none of them were programmatic. iOS changelog data was used as a proxy for app releases.
 
 [Back to top](#table-of-content)
