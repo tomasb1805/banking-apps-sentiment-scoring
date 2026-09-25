@@ -1,15 +1,15 @@
 
 ## Table of Content:
-1. Project Background
-2. Business Context
-3. Scope
-4. Executive Summary
-5. Data Structure and Initial Checks
-6. Analytical Insights 
-7. Recommendations
-8. Issues Encountered
-9. Limitations, Caveats and Assumptions
-10. Author
+1. [Project Background](#project-background)
+2. [Business Context](#business-context)
+3. [Scope](#scope)
+4. [Executive Summary](#executive-summary)
+5. [Data Structure and Initial Checks](#data-structure-and-initial-checks)
+6. [Analytical Insights](#analytical-insights)
+7. [Recommendations](#recommendations)
+8. [Issues Encountered](#issues-encountered)
+9. [Limitations, Caveats and Assumptions](#limitations-caveats-and-assumptions)
+10. [Author](#author)
 
 ## Project Background:
 
@@ -18,6 +18,8 @@ Mobile banking apps are one of the most common ways an individual can manage the
 In recent years branch-closure programmes have spread across the retail banking industry as customers adopted this new approach to banking. App reviews thus became a way for customers to express their frustration, partially substituting physical branches as the main communication channel.
 
 From a data analyst's perspective, reviews act as a continuous record of this frustration: public, auditable, unsolicited and timestamped. They are also rich in usable metadata, making them a suitable object for descriptive or diagnostic analytics.
+
+[Back to top](#table-of-content)
 
 ## Business Context:
 
@@ -28,6 +30,8 @@ Traditional banks, represented by four main banks whose origins run from the 17t
 NeoBanks (also known as Challenger banks), emerging from FinTech firms that from the mid-2010s onwards shaped their business model to closely resemble what their established competitors offered, delivering app-first retail and business account-holding solutions.
 
 In this analysis they are represented by: Monzo, Revolut, Starling, Tide, ANNA Money and Wise.
+
+[Back to top](#table-of-content)
 
 ## Scope:
 
@@ -47,11 +51,15 @@ The investigation focuses on the following key questions:
 
 This analysis is a proof of concept structured as an end-to-end pipeline: collection, transformation, analysis and reporting.
 
+[Back to top](#table-of-content)
+
 ## Executive Summary:
 
 Across 98,190 App Store and Google Play reviews of ten UK banking apps between August 2025 and August 2026, the headline finding is a reversal: Traditional banks began the window rated _above_ the NeoBanks cohort and ended it clearly _below_.
 
 Traditional banks' average rating fell from 4.39 (Sep 2025) to **3.61** (Aug 2026) — a 0.78-point decline concentrated almost entirely in the final quarter. NeoBanks moved barely at all over the same period, 4.16 to 4.06, having peaked at 4.46 in February 2026. The crossover occurs in **June 2026**, and from that point the two cohorts diverge considerably. One-star share tells the same story more sharply: Traditional banks' one-star reviews more than doubled, from 12.1% to 25.5%.
+
+[Back to top](#table-of-content)
 
 ## Data Structure and Initial Checks:
 
@@ -215,6 +223,8 @@ erDiagram
 
 The BigQuery warehouse holds three layers: one raw table per provider per store, a release-history table used to align reviews to app versions and a single transformed review table, containing a total of 98,190 records.
 
+[Back to top](#table-of-content)
+
 ## Analytical Insights:
 
 ### Insight 1: Negative Review Spikes vs App Updates Rollout
@@ -266,6 +276,8 @@ HSBC leads the table with the highest exposure to CAC friction (0.75%) with an A
 ANNA Money, Tide and Wise are the most at risk for the NeoBank cohort. 
 ANNA Money leads with £4,823 Annual CAC at Risk, Tide at £3,576 and Wise at £1,525.
 
+[Back to top](#table-of-content)
+
 ## Recommendations:
 
 _**For release management**_
@@ -289,6 +301,8 @@ The nature of the problem is compliance-driven, but the observed effect is on cu
 **_Next steps_**
 The results of this analysis lend themselves to extension as a predictive churn model rather than a sentiment model. One-star share is used here as a churn proxy because no account-cancellation data exists in the project; pairing this sentiment series with actual attrition data would convert a descriptive analysis into a predictive one.
 
+[Back to top](#table-of-content)
+
 ## Issues encountered:
 
 **_App Store's 500-review limit:_**
@@ -306,6 +320,8 @@ Revolut and Wise had no spikes detected at all. Their review volume is high enou
 **_Architecture chosen too early_:**
 The dashboard originally queried BigQuery live using a service-account key stored in the cloud platform's secrets. Due to security concerns as the project is a public portfolio piece, that feature was reconsidered. Removing that capability required stripping the client, rewriting a page that could not run without it.
 	**_It can be avoided by:_** Similarly to issue 1, a planning and testing phase must be implemented before deploying.
+
+[Back to top](#table-of-content)
 
 ## Limitations, Caveats and Assumptions:
 
@@ -337,6 +353,7 @@ Alternatives, while still being vulnerable to edge cases, could employ a transfo
 **_Changelog data available for iOS only_**
 Google Play does not make public changelogs for apps stored in the marketplace. While some alternative options were available, none of them were programmatic. iOS changelog data was used as a proxy for app releases.
 
+[Back to top](#table-of-content)
 
 ## Author
 
