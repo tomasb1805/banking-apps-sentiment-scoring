@@ -19,6 +19,8 @@ In recent years branch-closure programmes have spread across the retail banking 
 
 From a data analyst's perspective, reviews act as a continuous record of this frustration: public, auditable, unsolicited and timestamped. They are also rich in usable metadata, making them a suitable object for descriptive or diagnostic analytics.
 
+**[View the interactive dashboard on Tableau Public]([https://public.tableau.com/views/YOUR-VIZ-URL](https://public.tableau.com/app/profile/tomian.sogral/viz/fintech-reviews-app-dashboard/Dashboard?publish=yes))**
+
 [Back to top](#table-of-content)
 
 ## Business Context:
