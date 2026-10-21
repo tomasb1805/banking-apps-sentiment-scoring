@@ -11,6 +11,7 @@ test.ipynb
 Claude outputs
 __pycache__
 data/raw/
+data/reviews_*.csv
 
 
 __pycache__/

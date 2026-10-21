@@ -164,7 +164,7 @@ flowchart TB
     classDef pres fill:#F7E9E5,stroke:#C0533A,stroke-width:1px,color:#7A3324
     class CKPT,VERS,OUT,FACT,REL,EXP store
     class SC1,SC2,SC3,CLEAN,Q proc
-    class HTML,ST, pres
+    class HTML,ST pres
 
 ```
 
@@ -233,8 +233,6 @@ erDiagram
 > window when versions ship less than 14 days apart.
 
 The BigQuery warehouse holds three layers: one raw table per provider per store, a release-history table used to align reviews to app versions and a single transformed review table, containing a total of 95,677 records.
-
-[Back to top](#table-of-content)
 
 [Back to top](#table-of-content)
 
