@@ -156,7 +156,6 @@ flowchart TB
 
     EXP ==> HTML
     EXP ==> ST
-    EXP ==> DOC
 
     classDef hdr fill:none,stroke:none,font-weight:bold
     class SRCT,COLT,PROCT,BQT,SQLT,PREST hdr
@@ -165,7 +164,7 @@ flowchart TB
     classDef pres fill:#F7E9E5,stroke:#C0533A,stroke-width:1px,color:#7A3324
     class CKPT,VERS,OUT,FACT,REL,EXP store
     class SC1,SC2,SC3,CLEAN,Q proc
-    class HTML,ST,DOC pres
+    class HTML,ST, pres
 
 ```
 
