@@ -72,6 +72,8 @@ Across 95,677 App Store and Google Play reviews of ten UK banking apps between A
 
 Traditional banks' average rating fell from 4.39 (Sep 2025) to **3.61** (Aug 2026) — a 0.78-point decline concentrated almost entirely in the final quarter. NeoBanks moved barely at all over the same period, 4.16 to 4.06, having peaked at 4.46 in February 2026. The crossover occurs in **June 2026**, and from that point the two cohorts diverge considerably. One-star share tells the same story more sharply: Traditional banks' one-star reviews more than doubled, from 12.1% to 25.5%.
 
+For the top complaint drivers and the three fixes that would help the most customers, read the **[one-page memo](single_page_memo.md)**.
+
 [Back to top](#table-of-content)
 
 ## Data Structure and Initial Checks:
@@ -86,6 +88,8 @@ Barclays, NatWest, Lloyds Bank, HSBC, Monzo, Revolut, Starling, Wise, Tide, and 
 The review volume is heavily skewed towards Revolut (28,531) and Wise (25,516), while ANNA Money (216) and Tide (317) sit at the opposite side of the distribution. I weighted every per-app claim accordingly.
 
 I wrote additional Python scripts to parse, clean and structure the data before uploading it to Google BigQuery with a final Python script. 
+
+> _**Note:**_ The review-level data (`data/reviews_all.csv`, `data/reviews_analyzed.csv`) is not published, because its review text can identify the people who wrote it. The scraping notebooks rebuild it from the app stores; the aggregated table behind the dashboards is in `data/transformed_review_metrics.csv`.
 
 ### Data Quality:
 
@@ -119,7 +123,7 @@ flowchart TB
     end
 
     subgraph PROC[" "]
-        PROCT["③ Processing · pandas + NLTK"]
+        PROCT["③ Processing · pandas + VADER"]
         CLEAN["analyze_app_reviews.ipynb<br/>clean → VADER → categorise"]
         OUT[("reviews_analyzed.csv")]
     end
