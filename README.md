@@ -139,7 +139,7 @@ flowchart TB
     subgraph PRES[" "]
         PREST["⑥ Presentation — static, no credentials"]
         HTML["HTML dashboard<br/><i>4 modules</i>"]
-        ST["Streamlit app<br/><i>4 views</i>"]
+        TAB["Tableau Public<br/><i>interactive dashboard</i>"]
     end
 
     GP --> SC1 --> CKPT
@@ -155,7 +155,7 @@ flowchart TB
     Q --> EXP
 
     EXP ==> HTML
-    EXP ==> ST
+    EXP ==> TAB
 
     classDef hdr fill:none,stroke:none,font-weight:bold
     class SRCT,COLT,PROCT,BQT,SQLT,PREST hdr
@@ -164,7 +164,7 @@ flowchart TB
     classDef pres fill:#F7E9E5,stroke:#C0533A,stroke-width:1px,color:#7A3324
     class CKPT,VERS,OUT,FACT,REL,EXP store
     class SC1,SC2,SC3,CLEAN,Q proc
-    class HTML,ST pres
+    class HTML,TAB pres
 
 ```
 
