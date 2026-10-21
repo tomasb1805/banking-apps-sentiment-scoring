@@ -130,7 +130,7 @@ flowchart TB
 
     subgraph BQ[" "]
         BQT["④ Warehouse · BigQuery <i>europe-west2</i>"]
-        FACT[("app_reviews_sentiment_analysis<br/><b>95,677 rows</b>")]
+        FACT[("app_reviews_sentiment_analysis<br/><b>95,677 reviews in analysis window</b>")]
         REL[("app_updates_release<br/><i>iOS only</i>")]
     end
 
@@ -236,7 +236,7 @@ erDiagram
 > many-to-many by design — a single day can fall inside more than one release
 > window when versions ship less than 14 days apart.
 
-The BigQuery warehouse holds three layers: one raw table per provider per store, a release-history table used to align reviews to app versions and a single transformed review table, containing a total of 95,677 records.
+The BigQuery warehouse holds three layers: one raw table per provider per store, a release-history table used to align reviews to app versions and a single transformed review table, of which 95,677 reviews fall inside the analysis window.
 
 [Back to top](#table-of-content)
 
@@ -259,7 +259,7 @@ The remaining seven sit between +1.0pp and +5.0pp, which is ordinary spread.
 The average rating movement for both cohorts shows a similar trend up to June 2026, when Traditional banks decline sharply while NeoBanks' rating remains stable as in previous months.
 
 Notable trend reversals include:
-- NeoBanks' average rating jumps from 4.08 to a peak of 4.46 in December 2025
+- NeoBanks' average rating jumps from 4.08 in December 2025 to a peak of 4.46 in February 2026
 - June 2026 marking a sharp drop for Traditional banks.
 	Branch-closure programmes and service disruptions are potential candidates for this drop and should be tested directly.
 
@@ -275,9 +275,9 @@ Barclays, Tide, and HSBC lead the churn risk table, with the first two displayin
 ### Insight 3: Customer Complaint Drivers
 ![complaint-drivers](resources/complaint-drivers.png)
 
-For the NeoBank cohort, observed complaints cluster on Account Freeze and Restrictions (with a 6.5 pp above baseline), immediately followed by Customer Support Friction (+4.2 pp).
+For the NeoBank cohort, observed complaints cluster on Account Freeze and Restrictions (6.5pp more than traditional banks), immediately followed by Customer Support Friction (+4.2pp).
 
-Traditional banks lag behind in technological delivery: Login/Access Issues and UI/UX Bugs (-1.4pp and -4.6pp respectively) are the most common among the oldest institutions.
+Traditional banks lag behind in technological delivery: Login/Access Issues and UI/UX Bugs are the categories traditional-bank customers raise more often than NeoBank customers (1.4pp and 4.6pp more respectively).
 
 Thanks to a leaner infrastructure, Challenger banks adopt new technologies at a faster pace than Traditional bank competition. On the other hand, compliance and onboarding are common pain points for NeoBanks' customers.
 
