@@ -140,7 +140,6 @@ flowchart TB
         PREST["⑥ Presentation — static, no credentials"]
         HTML["HTML dashboard<br/><i>4 modules</i>"]
         ST["Streamlit app<br/><i>4 views</i>"]
-        DOC["Report<br/><i>PDF · DOCX</i>"]
     end
 
     GP --> SC1 --> CKPT
