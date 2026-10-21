@@ -9,6 +9,8 @@
 .claude
 test.ipynb
 Claude outputs
+__pycache__
+data/raw/
 
 
 __pycache__/

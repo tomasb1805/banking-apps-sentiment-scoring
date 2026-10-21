@@ -2,14 +2,15 @@
 ## Table of Content:
 1. [Project Background](#project-background)
 2. [Business Context](#business-context)
-3. [Scope](#scope)
-4. [Executive Summary](#executive-summary)
-5. [Data Structure and Initial Checks](#data-structure-and-initial-checks)
-6. [Analytical Insights](#analytical-insights)
-7. [Recommendations](#recommendations)
-8. [Issues Encountered](#issues-encountered)
-9. [Limitations, Caveats and Assumptions](#limitations-caveats-and-assumptions)
-10. [Author](#author)
+3. [A frontline note](#a-frontline-note)
+4. [Scope](#scope)
+5. [Executive Summary](#executive-summary)
+6. [Data Structure and Initial Checks](#data-structure-and-initial-checks)
+7. [Analytical Insights](#analytical-insights)
+8. [Recommendations](#recommendations)
+9. [Issues Encountered](#issues-encountered)
+10. [Limitations, Caveats and Assumptions](#limitations-caveats-and-assumptions)
+11. [Author](#author)
 
 ## Project Background:
 
@@ -35,9 +36,19 @@ In this analysis they are represented by: Monzo, Revolut, Starling, Tide, ANNA M
 
 [Back to top](#table-of-content)
 
+### A frontline note
+
+I spent two years as a customer service assistant at Lloyds Banking Group before moving into data analysis, and two of the categories this dataset flags as the biggest complaint drivers, namely account freezes and customer support friction, were two of the main customer issues I handled on the business frontline.
+
+Account freezes and transaction restrictions have their root in the bank's due diligence under AML regulations and sanctions requirements. I often saw customers struggle to tell the difference between “the system is protecting you” and “the system is not working”.
+
+From their perspective these two complaints sound identical until someone explains the difference. This is also why, in my experience, this kind of friction is rarely solved without human connection, and it takes someone who can explain the situation and defuse the customer’s frustration.
+
+[Back to top](#table-of-content)
+
 ## Scope:
 
-To compare strengths and weaknesses of both business models, i.e. Traditional banks vs NeoBanks, this analysis focused on gathering review data for UK retail and business apps, for iOS and Android platforms. The period covered spans August 2025 to August 2026, comprising 98,190 reviews across ten providers. 
+To compare strengths and weaknesses of both business models, i.e. Traditional banks vs NeoBanks, this analysis focused on gathering review data for UK retail and business apps, for iOS and Android platforms. The period covered spans August 2025 to August 2026, comprising 95,677 reviews across ten providers. 
 
 Understanding how and when customer sentiment shifts can help establish common points of friction that can lead to undesirable outcomes: loss of revenue, reputational damage, or rising customer acquisition costs.
 
@@ -57,7 +68,7 @@ This analysis is a proof of concept structured as an end-to-end pipeline: collec
 
 ## Executive Summary:
 
-Across 98,190 App Store and Google Play reviews of ten UK banking apps between August 2025 and August 2026, the headline finding is a reversal: Traditional banks began the window rated _above_ the NeoBanks cohort and ended it clearly _below_.
+Across 95,677 App Store and Google Play reviews of ten UK banking apps between August 2025 and August 2026, the headline finding is a reversal: Traditional banks began the window rated _above_ the NeoBanks cohort and ended it clearly _below_.
 
 Traditional banks' average rating fell from 4.39 (Sep 2025) to **3.61** (Aug 2026) — a 0.78-point decline concentrated almost entirely in the final quarter. NeoBanks moved barely at all over the same period, 4.16 to 4.06, having peaked at 4.46 in February 2026. The crossover occurs in **June 2026**, and from that point the two cohorts diverge considerably. One-star share tells the same story more sharply: Traditional banks' one-star reviews more than doubled, from 12.1% to 25.5%.
 
@@ -72,7 +83,7 @@ I wrote scripts in Python using the OpenCode agentic harness within an IDE Termi
 The UK mobile banking providers that I decided to examine for this analysis are the following:
 Barclays, NatWest, Lloyds Bank, HSBC, Monzo, Revolut, Starling, Wise, Tide, and ANNA Money.
 
-The review volume is heavily skewed towards Revolut (29,002) and Wise (25,928), while ANNA Money (115) and Tide (620) sit at the opposite side of the distribution. I weighted every per-app claim accordingly.
+The review volume is heavily skewed towards Revolut (28,531) and Wise (25,516), while ANNA Money (216) and Tide (317) sit at the opposite side of the distribution. I weighted every per-app claim accordingly.
 
 I wrote additional Python scripts to parse, clean and structure the data before uploading it to Google BigQuery with a final Python script. 
 
@@ -115,7 +126,7 @@ flowchart TB
 
     subgraph BQ[" "]
         BQT["④ Warehouse · BigQuery <i>europe-west2</i>"]
-        FACT[("app_reviews_sentiment_analysis<br/><b>98,190 rows</b>")]
+        FACT[("app_reviews_sentiment_analysis<br/><b>95,677 rows</b>")]
         REL[("app_updates_release<br/><i>iOS only</i>")]
     end
 
@@ -223,7 +234,9 @@ erDiagram
 > many-to-many by design — a single day can fall inside more than one release
 > window when versions ship less than 14 days apart.
 
-The BigQuery warehouse holds three layers: one raw table per provider per store, a release-history table used to align reviews to app versions and a single transformed review table, containing a total of 98,190 records.
+The BigQuery warehouse holds three layers: one raw table per provider per store, a release-history table used to align reviews to app versions and a single transformed review table, containing a total of 95,677 records.
+
+[Back to top](#table-of-content)
 
 [Back to top](#table-of-content)
 
