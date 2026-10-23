@@ -1,0 +1,96 @@
+app,provider_group,primary_category,n_reviews,n_negative,sum_score,sum_vader
+Revolut,NeoBank,Account Freeze/Restriction,416,263,551,-93.155100000000061
+Revolut,NeoBank,Uncategorized,7086,2516,20364,-650.36940000001152
+Revolut,NeoBank,Login/Access Issues,73,39,120,-13.507599999999996
+Revolut,NeoBank,UI/UX Bug,376,137,810,13.032800000000027
+Revolut,NeoBank,Fees/Pricing,320,48,1339,169.94000000000031
+Revolut,NeoBank,Customer Support Friction,550,241,1450,63.60709999999996
+Revolut,NeoBank,Transfer Latency,19,12,27,-4.9483999999999995
+Revolut,NeoBank,KYC/Onboarding,151,73,288,-10.106699999999998
+Revolut,NeoBank,Card Declines,20,6,81,2.5534
+Wise,NeoBank,UI/UX Bug,134,62,300,-8.97030000000001
+Wise,NeoBank,Uncategorized,7436,2535,20654,-498.51680000000619
+Wise,NeoBank,Login/Access Issues,62,22,123,1.6602000000000017
+Wise,NeoBank,Account Freeze/Restriction,475,270,534,-78.8562
+Wise,NeoBank,Customer Support Friction,529,249,1149,29.565899999999925
+Wise,NeoBank,KYC/Onboarding,143,77,247,-10.98140000000001
+Wise,NeoBank,Fees/Pricing,710,63,3190,424.92260000000135
+Wise,NeoBank,Card Declines,30,13,61,-3.0958
+Wise,NeoBank,Transfer Latency,64,28,110,-1.4045999999999998
+Barclays,TradBank,Uncategorized,3939,1515,11634,-413.59140000000207
+Barclays,TradBank,Customer Support Friction,172,60,498,31.440199999999997
+Barclays,TradBank,UI/UX Bug,380,159,771,-10.432699999999969
+Barclays,TradBank,Account Freeze/Restriction,43,27,65,-12.310800000000002
+Barclays,TradBank,Login/Access Issues,55,23,142,7.0180000000000016
+Barclays,TradBank,KYC/Onboarding,4,4,9,-2.1595
+Barclays,TradBank,Card Declines,22,10,73,2.0766000000000004
+Lloyds,TradBank,Uncategorized,3178,1195,9228,-293.71169999999819
+Lloyds,TradBank,UI/UX Bug,192,90,383,-13.618399999999996
+Lloyds,TradBank,Account Freeze/Restriction,38,23,60,-7.2181000000000015
+Lloyds,TradBank,Login/Access Issues,80,35,164,-3.9050000000000025
+Lloyds,TradBank,Customer Support Friction,113,43,286,14.831
+Lloyds,TradBank,Card Declines,8,3,11,0.38390000000000024
+Lloyds,TradBank,Transfer Latency,3,2,4,-0.83159999999999989
+Lloyds,TradBank,KYC/Onboarding,12,9,16,-3.7746
+Starling,NeoBank,Uncategorized,442,180,1247,-49.8021
+Starling,NeoBank,Account Freeze/Restriction,15,8,32,-1.3069000000000002
+Starling,NeoBank,Card Declines,9,4,23,0.91559999999999975
+Starling,NeoBank,Customer Support Friction,122,22,500,65.391300000000015
+Starling,NeoBank,UI/UX Bug,19,5,57,2.6525
+Starling,NeoBank,KYC/Onboarding,3,1,3,-0.7003
+Starling,NeoBank,Fees/Pricing,11,1,51,7.2044999999999995
+Tide,NeoBank,Uncategorized,257,134,421,-48.725700000000018
+Tide,NeoBank,Account Freeze/Restriction,34,27,40,-14.616000000000001
+Tide,NeoBank,Login/Access Issues,5,3,8,-0.1097999999999999
+Tide,NeoBank,UI/UX Bug,26,16,38,-3.1188000000000002
+Tide,NeoBank,Customer Support Friction,57,37,84,-14.333400000000006
+Tide,NeoBank,KYC/Onboarding,8,4,18,-0.72129999999999961
+Monzo,NeoBank,Uncategorized,656,298,1458,-82.531400000000076
+Monzo,NeoBank,UI/UX Bug,12,7,27,-0.24219999999999942
+Monzo,NeoBank,Customer Support Friction,92,33,271,21.489699999999996
+Monzo,NeoBank,Account Freeze/Restriction,71,46,81,-23.188499999999991
+Monzo,NeoBank,Card Declines,1,1,1,-0.3758
+Monzo,NeoBank,Login/Access Issues,9,5,19,-0.37949999999999989
+Monzo,NeoBank,KYC/Onboarding,8,4,16,-1.1331000000000002
+Monzo,NeoBank,Transfer Latency,2,1,2,-0.926
+ANNA Bank,NeoBank,Uncategorized,29,20,54,-8.7305
+ANNA Bank,NeoBank,Account Freeze/Restriction,6,5,6,-3.0804
+ANNA Bank,NeoBank,Fees/Pricing,2,2,2,-1.4938
+NatWest,TradBank,Uncategorized,997,447,2099,-110.96600000000002
+NatWest,TradBank,Login/Access Issues,58,27,110,-2.042400000000002
+NatWest,TradBank,Customer Support Friction,48,16,158,9.1893000000000029
+NatWest,TradBank,UI/UX Bug,50,23,104,-4.1954
+NatWest,TradBank,Account Freeze/Restriction,14,7,20,-1.1166
+HSBC,TradBank,Uncategorized,1584,705,3114,-172.68689999999933
+HSBC,TradBank,UI/UX Bug,137,76,200,-28.852700000000013
+HSBC,TradBank,Fees/Pricing,7,2,20,1.1524
+HSBC,TradBank,Customer Support Friction,101,40,276,15.43169999999999
+HSBC,TradBank,Account Freeze/Restriction,33,21,38,-8.1174000000000017
+HSBC,TradBank,KYC/Onboarding,28,17,37,-6.3319999999999981
+HSBC,TradBank,Login/Access Issues,37,21,53,-6.8875
+HSBC,TradBank,Card Declines,4,2,13,0.19279999999999997
+NatWest,TradBank,KYC/Onboarding,3,1,3,-0.8366
+Tide,NeoBank,Transfer Latency,2,1,7,-0.4442
+Barclays,TradBank,Transfer Latency,1,1,1,-0.7713
+Revolut,NeoBank,General Praise,19991,0,98544,12177.502300002381
+Wise,NeoBank,General Praise,16345,0,80798,9978.5136000015736
+HSBC,TradBank,General Praise,1922,0,9444,1128.832099999998
+Lloyds,TradBank,General Praise,10238,0,50284,5862.8028999996777
+Barclays,TradBank,General Praise,12243,0,60073,7227.376900000605
+ANNA Bank,NeoBank,UI/UX Bug,2,2,3,-1.2769
+ANNA Bank,NeoBank,KYC/Onboarding,2,2,6,-0.5058
+NatWest,TradBank,General Praise,1505,0,7404,945.56839999999522
+NatWest,TradBank,Fees/Pricing,2,1,2,-0.093999999999999972
+Starling,NeoBank,General Praise,2056,0,10159,1369.47599999999
+Monzo,NeoBank,General Praise,1825,0,9042,1226.0950000000037
+Tide,NeoBank,General Praise,233,0,1144,150.53849999999983
+NatWest,TradBank,Card Declines,4,2,4,-0.8641
+Tide,NeoBank,Card Declines,1,1,3,-0.1154
+ANNA Bank,NeoBank,Customer Support Friction,10,1,39,6.2382
+Monzo,NeoBank,Fees/Pricing,6,0,24,4.6859
+Barclays,TradBank,Fees/Pricing,1,0,1,0.6317
+Starling,NeoBank,Transfer Latency,1,0,1,0.1531
+ANNA Bank,NeoBank,General Praise,64,0,317,44.860299999999974
+Lloyds,TradBank,Fees/Pricing,1,0,2,0.4588
+Starling,NeoBank,Login/Access Issues,6,0,15,1.7943
+ANNA Bank,NeoBank,Card Declines,1,1,2,-0.1531
