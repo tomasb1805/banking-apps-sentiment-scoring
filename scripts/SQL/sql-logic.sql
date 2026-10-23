@@ -7,6 +7,10 @@
 -- Scope: 10 UK banking apps (provider_map below). Klarna (BNPL, non-comparable)
 -- was removed from the source dataset upstream -- no filter needed here.
 -- Grain: app x review_month x primary_category
+-- Analysis window: Aug 2025 - Aug 2026 (2025-08-01 to 2026-08-31, UTC dates).
+-- Use for the monthly trend line only. The HAVING filter below drops thin
+-- cells, so summing these rows undercounts: take totals and shares from
+-- 05_category_totals.sql, which has no group-size filter.
 -- Regenerated: 2026-08-28
 -- =====================================================================
 
@@ -40,10 +44,13 @@ monthly_metrics AS (
     AVG(IF(r.vader_sentiment = 'neutral',  1, 0)) AS neutral_share
   FROM `fintech-reviews-analytics.fintech_app_reviews.app_reviews_sentiment_analysis` r
   JOIN provider_map m USING (app)
+  -- Analysis window. Without it, apps whose scrape reached further back
+  -- (ANNA Bank to 2020, Tide to 2024) bring in reviews from before Aug 2025.
+  WHERE DATE(r.reviewed_at) BETWEEN DATE '2025-08-01' AND DATE '2026-08-31'
   GROUP BY 1, 2, 3, 4
-  -- Risk mitigation: ANNA Bank / Tide have low monthly review volume.
-  -- Drop app/month/category cells too thin (<=20 reviews) to be a reliable
-  -- signal, rather than surfacing noisy averages on the dashboard.
+  -- Trend line only. ANNA Bank / Tide have low monthly review volume, so
+  -- app/month/category cells too thin (<=20 reviews) to give a stable average
+  -- are dropped rather than plotted as noise. Never sum this table for totals.
   HAVING COUNT(*) > 20
 )
 
