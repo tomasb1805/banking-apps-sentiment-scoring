@@ -48,7 +48,7 @@ From their perspective these two complaints sound identical until someone explai
 
 ## Scope:
 
-To compare strengths and weaknesses of both business models, i.e. Traditional banks vs NeoBanks, this analysis focused on gathering review data for UK retail and business apps, for iOS and Android platforms. The period covered spans August 2025 to August 2026, comprising 95,677 reviews across ten providers. 
+To compare strengths and weaknesses of both business models, i.e. Traditional banks vs NeoBanks, this analysis focused on gathering review data for UK retail and business apps, for iOS and Android platforms. The period covered spans August 2025 to August 2026, comprising 98,292 reviews across ten providers. 
 
 Understanding how and when customer sentiment shifts can help establish common points of friction that can lead to undesirable outcomes: loss of revenue, reputational damage, or rising customer acquisition costs.
 
@@ -68,7 +68,7 @@ This analysis is a proof of concept structured as an end-to-end pipeline: collec
 
 ## Executive Summary:
 
-Across 95,677 App Store and Google Play reviews of ten UK banking apps between August 2025 and August 2026, the headline finding is a reversal: Traditional banks began the window rated _above_ the NeoBanks cohort and ended it clearly _below_.
+Across 98,292 App Store and Google Play reviews of ten UK banking apps between August 2025 and August 2026, the headline finding is a reversal: Traditional banks began the window rated _above_ the NeoBanks cohort and ended it clearly _below_.
 
 Traditional banks' average rating fell from 4.39 (Sep 2025) to **3.61** (Aug 2026) — a 0.78-point decline concentrated almost entirely in the final quarter. NeoBanks moved barely at all over the same period, 4.16 to 4.06, having peaked at 4.46 in February 2026. The crossover occurs in **June 2026**, and from that point the two cohorts diverge considerably. One-star share tells the same story more sharply: Traditional banks' one-star reviews more than doubled, from 12.1% to 25.5%.
 
@@ -85,7 +85,7 @@ I wrote scripts in Python using the OpenCode agentic harness within an IDE Termi
 The UK mobile banking providers that I decided to examine for this analysis are the following:
 Barclays, NatWest, Lloyds Bank, HSBC, Monzo, Revolut, Starling, Wise, Tide, and ANNA Money.
 
-The review volume is heavily skewed towards Revolut (28,531) and Wise (25,516), while ANNA Money (216) and Tide (317) sit at the opposite side of the distribution. I weighted every per-app claim accordingly.
+The review volume is heavily skewed towards Revolut (29,002) and Wise (25,928), while ANNA Money (116) and Tide (623) sit at the opposite side of the distribution. I weighted every per-app claim accordingly.
 
 I wrote additional Python scripts to parse, clean and structure the data before uploading it to Google BigQuery with a final Python script. 
 
@@ -97,7 +97,7 @@ During the data quality checks, I applied three conditions before running any an
 
 - Reviews are restricted to Aug 2025 – Aug 2026. Per-app historical review volume varies wildly in the raw data because the scrape stopped on a review-count quota rather than a fixed start date. I restricted the time window over which all ten providers are genuinely comparable.
 
-- App–month cells with fewer than 10 reviews are excluded from trend charts, to avoid further skew in the distribution, as such low volume cannot produce a stable average.
+- App × month × category groups with 20 or fewer reviews are excluded from the monthly trend line only, as such low volume cannot produce a stable average. Totals, shares and complaint counts use every review in the window.
 
 - During the checks I acknowledged that some providers were not perfectly suitable for the intended scope. I decided to exclude Klarna due to its lending-oriented services as a Buy Now Pay Later (BNPL) provider, and to keep Wise, ANNA Money and Tide: while their regulatory status is different from that of a licensed bank (Electronic Money Institution for ANNA Money and Wise, Banking-as-a-Service for Tide), they still offer services comparable to traditional account-holding institutions.
 
@@ -130,7 +130,7 @@ flowchart TB
 
     subgraph BQ[" "]
         BQT["④ Warehouse · BigQuery <i>europe-west2</i>"]
-        FACT[("app_reviews_sentiment_analysis<br/><b>95,677 reviews in analysis window</b>")]
+        FACT[("app_reviews_sentiment_analysis<br/><b>98,292 reviews in analysis window</b>")]
         REL[("app_updates_release<br/><i>iOS only</i>")]
     end
 
@@ -236,7 +236,7 @@ erDiagram
 > many-to-many by design — a single day can fall inside more than one release
 > window when versions ship less than 14 days apart.
 
-The BigQuery warehouse holds three layers: one raw table per provider per store, a release-history table used to align reviews to app versions and a single transformed review table, of which 95,677 reviews fall inside the analysis window.
+The BigQuery warehouse holds three layers: one raw table per provider per store, a release-history table used to align reviews to app versions and a single transformed review table, of which 98,292 reviews fall inside the analysis window.
 
 [Back to top](#table-of-content)
 
