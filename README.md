@@ -266,6 +266,8 @@ Notable trend reversals include:
 
 ![churn-risk-table](resources/churn-risk-table.png)
 
+Barclays ranks as high churn risk even though its negative share on the Tableau dashboard is among the lowest (10.7%): the churn tier uses August 2026 alone, when 35.5% of its reviews were one-star, while the dashboard's negative share covers the whole year.
+
 The bottom dashboard highlights churn risk and the average rating movement for each provider. 
 
 Barclays, Tide, and HSBC lead the churn risk table, with the first two displaying an erosion of average app review rating.
